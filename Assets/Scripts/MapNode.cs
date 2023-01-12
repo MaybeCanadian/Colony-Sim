@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class MapNode
 {
+    #region Members
     //private Tile mapVisuals;
     private Vector3 position;
     private bool walkable = true;
@@ -13,6 +14,10 @@ public class MapNode
     private MapNode[] ConnectedNodes;
     
     private Dictionary<NodeDirections, MapNode> ConnectedNodeDict;
+
+    #endregion
+
+    #region Methods
 
     public MapNode(Vector3 inPos)
     {
@@ -121,19 +126,6 @@ public class MapNode
     }
 
     #endregion
-}
 
-
-
-[System.Serializable]
-public enum NodeDirections
-{
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT,
-    UP_LEFT,
-    UP_RIGHT,
-    DOWN_LEFT,
-    DOWN_RIGHT
+    #endregion
 }

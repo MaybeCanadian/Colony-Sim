@@ -4,9 +4,19 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+
+    #region Members
     public static GameController instance;
 
-    public int defaultMapSize = 10;
+    public int MapSizeX = 10;
+    public int MapSizeY = 10;
+
+    public int ChunkSizeX = 10;
+    public int ChunkSizeY = 10;
+
+    #endregion
+
+    #region Methods
 
     private void Awake()
     {
@@ -21,6 +31,8 @@ public class GameController : MonoBehaviour
     }
     void Start()
     {
-        //MapGenerator.instance.GenerateMap(defaultMapSize);
+        MapGenerator.instance.CreateMapChunks(MapSizeX, MapSizeY, ChunkSizeX, ChunkSizeY);
     }
+
+    #endregion
 }
