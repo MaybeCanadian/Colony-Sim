@@ -12,20 +12,20 @@ public class PathFindingNode
     bool isWalkable;
 
     [SerializeField]
-    GridTypes nodeType;
+    GridType nodeType;
 
     PathFindingNode[] connectedNodes;
     Dictionary<NodeConnectionDirections, PathFindingNode> connectionsDictionary;
 
     #region Init Functions
-    public PathFindingNode(GridTypes nodeType, Vector3 nodePosition, bool isWalkable = true)
+    public PathFindingNode(GridType nodeType, Vector3 nodePosition, bool isWalkable = true)
     {
         switch (nodeType)
         {
-            case GridTypes.HEX:
+            case GridType.HEX:
                 SetUpHexNode();
                 break;
-            case GridTypes.SQUARE:
+            case GridType.SQUARE:
                 SetUpSquareNode();
                 break;
         }
@@ -61,7 +61,7 @@ public class PathFindingNode
     {
         return isWalkable;
     }
-    public GridTypes GetNodeType()
+    public GridType GetNodeType()
     {
         return nodeType;
     }
@@ -108,6 +108,14 @@ public class PathFindingNode
         }
 
         return connectionsDictionary[side].GetIfNodeWalkable();
+    }
+
+    #endregion
+
+    #region Node LifeCycle
+    public void DestroyNode()
+    {
+
     }
 
     #endregion

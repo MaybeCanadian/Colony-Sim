@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public enum GridTypes
+public enum GridType
 {
     HEX,
     SQUARE

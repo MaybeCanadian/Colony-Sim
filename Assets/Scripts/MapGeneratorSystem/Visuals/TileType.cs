@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MapTileTypes
+public enum TileType
 {
-    EMPTY,
-    DEFAULT,
+    GRASS,
+    WATER
 }
