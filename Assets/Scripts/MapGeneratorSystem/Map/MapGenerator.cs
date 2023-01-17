@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.iOS.Xcode;
 using UnityEngine;
 
 [System.Serializable]
@@ -23,44 +24,31 @@ static public class MapGenerator
     public delegate void MapDestructionEvent();
     public static MapDestructionEvent OnMapDestructionEvent;
 
+    public delegate void ChunkGeneratedEvent();
+    public static ChunkGeneratedEvent OnChunkGeneratedEvent;
+
     #endregion
 
     #region Map Lifecycle
 
     #region Map Generation
-    public static void GenerateMap(GridType gridType, int mapWdith, int mapHeight)
+    public static void GenerateMap(GridType tileGridType, GridType chunkGridType, int mapWdith, int mapHeight, int chunkWidth, int chunkHeight)
     {
         if (map != null)
         {
             DestroyMap();
         }
 
-        map = new MapObject(gridType, mapWdith, mapHeight);
+        map = new MapObject(tileGridType, chunkGridType, mapWdith, mapHeight, chunkWidth, chunkHeight);
 
-        switch (gridType) 
-        {
-            case GridType.HEX:
-                GenerateHexMap();
-                break;
-            case GridType.SQUARE:
-                GenerateSqureMap();
-                break;
-
-        }
+        map.GenerateMapNodes();
 
         OnMapGenerationCompleteEvent?.Invoke();
 
         OnMapCompletedEvent?.Invoke();
-    }
-    private static void GenerateHexMap()
-    {
 
+        Debug.Log("Finished Generating Map");
     }
-    private static void GenerateSqureMap()
-    {
-
-    }
-
     #endregion
 
     #region Map Loading
@@ -91,6 +79,14 @@ static public class MapGenerator
     }
 
     #endregion
+
+    #endregion
+
+    #region Map Data
+    public static MapObject GetMap()
+    {
+        return map;
+    }
 
     #endregion
 }

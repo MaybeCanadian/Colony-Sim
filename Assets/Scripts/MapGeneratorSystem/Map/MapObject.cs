@@ -7,19 +7,128 @@ using static MapGenerator;
 public class MapObject
 {
     [SerializeField]
-    private List<MapChunk> mapChunks;
+    private MapChunk[,] mapChunks;
     [SerializeField]
-    private GridType gridType;
-    public MapObject(GridType gridType, int mapWeight, int mapHeight)
+    private GridType tileGridType;
+    [SerializeField]
+    private GridType chunkGridType;
+
+    [SerializeField]
+    private int mapWidth;
+    [SerializeField]
+    private int mapHeight;
+    [SerializeField]
+    private int chunkWidth;
+    [SerializeField]
+    private int chunkHeight;
+
+    #region Map LifeCycle
+    public MapObject(GridType tileGridType, GridType chunkGridType, int mapWidth, int mapHeight, int chunkWdith, int chunkHeight)
     {
-        mapChunks = new List<MapChunk>();
+        mapChunks = new MapChunk[mapWidth, mapHeight];
+
+        Debug.Log("Map Object Created");
     }
-    public void AddChunk(Vector3 chunkPosition)
+    public void GenerateMapNodes()
+    {
+        switch(chunkGridType)
+        {
+            case GridType.HEX:
+                GenerateSquareChunks();
+                break;
+            case GridType.SQUARE:
+                GenerateHexChunks();
+                break;
+        }
+    }
+    public void GenerateSquareChunks()
     {
 
+    }
+    public void GenerateHexChunks()
+    {
+        //TO DO - add hex chunk code
+    }
+    public void AddChunk(MapChunk chunk, int x, int y)
+    {
+        if(x < 0 || x > mapWidth || y < 0 || y > mapHeight)
+        {
+            Debug.LogError("ERROR - Chunk add Index out of range.");
+            return;
+        }
+
+        mapChunks[x, y] = chunk;
+
+        return;
     }
     public void DestroyMap()
     {
+        for(int y = 0; y < mapHeight; y++)
+        {
+            for(int x = 0; x < mapWidth; x++)
+            {
+                mapChunks[x, y].DestroyChunk();
 
+                mapChunks[x, y] = null;
+            }
+        }
+
+        mapChunks = null;
     }
+    #endregion
+
+    #region Map Data Functions
+    public GridType GetMapTileGridType()
+    {
+        return tileGridType;
+    }
+    public GridType GetMapChunkGridType()
+    {
+        return chunkGridType;
+    }
+    public int GetMapWidth()
+    {
+        return mapWidth;
+    }
+    public int GetMapHeight()
+    {
+        return mapHeight;
+    }
+    public int GetChunkWidth()
+    {
+        return chunkWidth;
+    }
+    public int GetChunkHeight() 
+    {
+        return chunkHeight;
+    }
+    public int GetNodeCount()
+    {
+        int count = 0;
+        
+        foreach(MapChunk chunk in mapChunks)
+        {
+            if (chunk == null)
+                continue;
+
+            count += chunk.GetNodeCount();
+        }
+
+        return count;
+    }
+    public int GetCountCount()
+    {
+        int count = 0;
+
+        foreach(MapChunk chunk in mapChunks)
+        {
+            if (chunk == null)
+                continue;
+
+            count++;
+        }
+
+        return count;
+    }
+    #endregion
 }

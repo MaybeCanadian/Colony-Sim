@@ -11,9 +11,12 @@ public class MapNode
     PathFindingNode pathFindingNode;
 
     [SerializeField]
-    TileType tileType;
-    [SerializeField]
     float tileRotation;
+    [SerializeField]
+    Vector3 nodePosition;
+
+    [SerializeField]
+    MapChunk chunk;
 
     #region Event Dispatchers
 
@@ -29,9 +32,13 @@ public class MapNode
     #endregion
 
     #region Node LifeCycle
-    public MapNode()
+    public MapNode(MapChunk chunk, Vector3 nodePosition)
     {
         OnNodeCreateEvent?.Invoke();
+
+        pathFindingNode = new PathFindingNode(chunk.GetTileGridType(), nodePosition);
+
+        Debug.Log("Created Node");
     }
 
     public void DestroyNode()
@@ -61,6 +68,10 @@ public class MapNode
     public float GetTileRotation()
     {
         return tileRotation;
+    }
+    public GridType GetNodeGridType()
+    {
+        return chunk.GetTileGridType();
     }
 
     #endregion
