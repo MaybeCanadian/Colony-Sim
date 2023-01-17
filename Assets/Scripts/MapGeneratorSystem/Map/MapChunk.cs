@@ -24,7 +24,9 @@ public class MapChunk
     {
         chunkNodes = new MapNode[chunkWidth, chunkHeight];
 
-        Debug.Log("Created Chunk");
+        this.map = map;
+        this.chunkWidth = chunkWidth;
+        this.chunkHeight = chunkHeight;
     }
     public void GenerateSquareChunk()
     {

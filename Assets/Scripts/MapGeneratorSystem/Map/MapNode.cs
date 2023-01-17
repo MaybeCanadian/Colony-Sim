@@ -34,6 +34,9 @@ public class MapNode
     #region Node LifeCycle
     public MapNode(MapChunk chunk, Vector3 nodePosition)
     {
+        this.chunk = chunk;
+        this.nodePosition = nodePosition;
+
         OnNodeCreateEvent?.Invoke();
 
         pathFindingNode = new PathFindingNode(chunk.GetTileGridType(), nodePosition);

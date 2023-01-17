@@ -27,23 +27,39 @@ public class MapObject
     {
         mapChunks = new MapChunk[mapWidth, mapHeight];
 
-        Debug.Log("Map Object Created");
+        this.tileGridType = tileGridType;
+        this.chunkGridType = chunkGridType;
+
+        this.mapWidth = mapWidth;
+        this.mapHeight = mapHeight;
+        this.chunkWidth = chunkWdith;
+        this.chunkHeight = chunkHeight;
     }
     public void GenerateMapNodes()
     {
         switch(chunkGridType)
         {
             case GridType.HEX:
-                GenerateSquareChunks();
+                GenerateHexChunks();
                 break;
             case GridType.SQUARE:
-                GenerateHexChunks();
+                GenerateSquareChunks();
                 break;
         }
     }
     public void GenerateSquareChunks()
     {
+        for(int y = 0; y < mapHeight; y++)
+        {
+            for(int x = 0; x < mapWidth; x++)
+            {
+                MapChunk chunk = new MapChunk(this, chunkWidth, chunkHeight);
 
+                mapChunks[x,y] = chunk;
+
+                chunk.GenerateSquareChunk();
+            }
+        }
     }
     public void GenerateHexChunks()
     {

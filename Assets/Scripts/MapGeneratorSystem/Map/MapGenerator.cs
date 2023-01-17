@@ -46,8 +46,6 @@ static public class MapGenerator
         OnMapGenerationCompleteEvent?.Invoke();
 
         OnMapCompletedEvent?.Invoke();
-
-        Debug.Log("Finished Generating Map");
     }
     #endregion
 
