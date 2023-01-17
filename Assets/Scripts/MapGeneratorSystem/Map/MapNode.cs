@@ -12,8 +12,6 @@ public class MapNode
 
     [SerializeField]
     float tileRotation;
-    [SerializeField]
-    Vector3 nodePosition;
 
     [SerializeField]
     MapChunk chunk;
@@ -35,13 +33,10 @@ public class MapNode
     public MapNode(MapChunk chunk, Vector3 nodePosition)
     {
         this.chunk = chunk;
-        this.nodePosition = nodePosition;
 
         OnNodeCreateEvent?.Invoke();
 
         pathFindingNode = new PathFindingNode(chunk.GetTileGridType(), nodePosition);
-
-        Debug.Log("Created Node");
     }
 
     public void DestroyNode()

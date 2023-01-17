@@ -29,5 +29,7 @@ public class MapTester : MonoBehaviour
 
         Debug.Log("Node count is - " + map.GetNodeCount());
         Debug.Log("Chunk count is - " + map.GetCountCount());
+
+        MapVisualsController.instance.CreateMapVisuals();
     }
 }
