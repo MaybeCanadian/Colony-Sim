@@ -6,10 +6,15 @@ public class MapVisualsController : MonoBehaviour
 {
     public static MapVisualsController instance;
 
-    public GameObject mapTileParent = null;
-    public GameObject mapObjectParent = null;
-
-    public List<VisualNode> visualNodes;
+    [Header("Parents")]
+    [SerializeField]
+    private GameObject mapTileParent = null;
+    [SerializeField]
+    private GameObject mapObjectParent = null;
+    [Header("Nodes")]
+    [SerializeField]
+    private TileType deafultTileType = TileType.GRASS_EMPTY;
+    
     private void Awake()
     {
         if(instance != this && instance != null)
@@ -39,7 +44,30 @@ public class MapVisualsController : MonoBehaviour
         mapTileParent.transform.SetParent(transform);
         mapTileParent.name = "Map Tile Parent";
 
-        visualNodes = new List<VisualNode>();
+        MapObject map = MapGenerator.GetMap();
+
+        int mapWidth = map.GetMapWidth();
+        int mapHeight = map.GetMapHeight();
+
+        for(int y = 0; y < mapHeight; y++)
+        {
+            for(int x = 0; x < mapWidth; x++)
+            {
+                MapNode mapNode = map.GetMapNode(x, y);
+
+                if(mapNode == null)
+                {
+                    Debug.LogError("ERROR - Map Node at given location is null.");
+                    continue;
+                }
+
+                TileType tileType = mapNode.GetTileType();
+                GameObject TileAsset = TileAssets.GetInstance().GetTileAsset(tileType);
+                GameObject visualNode = Instantiate(TileAsset, mapNode.GetNodePosition(), mapNode.GetTileOrientation(), mapTileParent.transform);
+
+                visualNode.name = "TILE at " + x + ", " + y;
+            }
+        }
     }
     private void CreateObjectVisuals()
     {
@@ -64,11 +92,6 @@ public class MapVisualsController : MonoBehaviour
             return;
         }
 
-        foreach(VisualNode node in visualNodes)
-        {
-            node.DestroyNode();
-        }
-
         Destroy(mapTileParent);
 
         mapTileParent = null;
@@ -83,6 +106,14 @@ public class MapVisualsController : MonoBehaviour
         Destroy(mapObjectParent);
 
         mapObjectParent = null;
+    }
+
+    #endregion
+
+    #region Map Visuals Data Function
+    public TileType GetDefaultTileType()
+    {
+        return deafultTileType;
     }
 
     #endregion

@@ -32,14 +32,14 @@ static public class MapGenerator
     #region Map Lifecycle
 
     #region Map Generation
-    public static void GenerateMap(GridType tileGridType, GridType chunkGridType, int mapWdith, int mapHeight, int chunkWidth, int chunkHeight)
+    public static void GenerateMap(GridType tileGridType, GridType mapGridType, int mapWdith = 10, int mapHeight = 10, float XTileOffset = 1.0f, float YTileOffset = 1.0f)
     {
         if (map != null)
         {
             DestroyMap();
         }
 
-        map = new MapObject(tileGridType, chunkGridType, mapWdith, mapHeight, chunkWidth, chunkHeight);
+        map = new MapObject(tileGridType, mapGridType, mapWdith, mapHeight, XTileOffset, YTileOffset);
 
         map.GenerateMapNodes();
 

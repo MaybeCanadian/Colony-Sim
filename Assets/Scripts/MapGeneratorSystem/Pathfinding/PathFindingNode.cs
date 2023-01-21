@@ -20,6 +20,10 @@ public class PathFindingNode
     #region Init Functions
     public PathFindingNode(GridType nodeType, Vector3 nodePosition, bool isWalkable = true)
     {
+        this.nodeType = nodeType;
+        this.nodePosition = nodePosition;
+        this.isWalkable = isWalkable;
+
         switch (nodeType)
         {
             case GridType.HEX:

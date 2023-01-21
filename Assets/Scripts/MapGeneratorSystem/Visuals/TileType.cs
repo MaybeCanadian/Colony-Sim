@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum TileType
 {
-    GRASS,
+    GRASS_EMPTY,
+    GRASS_ROAD,
     WATER
 }

@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VisualNode : MonoBehaviour
+public class VisualNode
 {
     [SerializeField]
     MapNode mapNode;
 
     [SerializeField]
-    GameObject NodeTile;
+    GameObject NodeTile = null;
 
     #region Event Handlers
     public void ConnectEvents(MapNode node)
@@ -46,12 +46,23 @@ public class VisualNode : MonoBehaviour
     #endregion
 
     #region Node LifeCycle
-    public void DestroyNode()
+
+    public VisualNode()
     {
-        Destroy(NodeTile);
-        mapNode = null;
-        Destroy(gameObject);
+        //NodeTile = null;
+
+        //TileType defaultType = MapVisualsController.instance.GetDefaultTileType();
+
+        //GameObject defaultTile = TileAssets.GetInstance().GetTileAsset(defaultType);
+
+        //NodeTile = Instantiate(defaultTile, transform);
     }
+    //public void DestroyNode()
+    //{
+    //    Destroy(NodeTile);
+    //    mapNode = null;
+    //    Destroy(gameObject);
+    //}
 
     #endregion
 }

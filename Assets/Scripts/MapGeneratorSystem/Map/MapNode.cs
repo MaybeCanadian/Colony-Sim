@@ -6,15 +6,13 @@ using UnityEngine;
 public class MapNode
 {
     [SerializeField]
-    VisualNode visualsNode;
-    [SerializeField]
     PathFindingNode pathFindingNode;
-
     [SerializeField]
     float tileRotation;
-
     [SerializeField]
-    MapChunk chunk;
+    private TileType tileType;
+    [SerializeField]
+    private Quaternion tileOrientation;
 
     #region Event Dispatchers
 
@@ -30,20 +28,17 @@ public class MapNode
     #endregion
 
     #region Node LifeCycle
-    public MapNode(MapChunk chunk, Vector3 nodePosition)
+    public MapNode(GridType nodeType, Vector3 nodePosition)
     {
-        this.chunk = chunk;
-
         OnNodeCreateEvent?.Invoke();
 
-        pathFindingNode = new PathFindingNode(chunk.GetTileGridType(), nodePosition);
+        pathFindingNode = new PathFindingNode(nodeType, nodePosition);
     }
 
     public void DestroyNode()
     {
         OnNodeDestroyEvent?.Invoke();
 
-        visualsNode.DestroyNode();
         pathFindingNode.DestroyNode();
     }
 
@@ -55,10 +50,6 @@ public class MapNode
     {
         return pathFindingNode;
     }
-    public VisualNode GetVisualNode()
-    {
-        return visualsNode;
-    }
     public Vector3 GetNodePosition()
     {
         return pathFindingNode.GetNodePosition();
@@ -67,9 +58,13 @@ public class MapNode
     {
         return tileRotation;
     }
-    public GridType GetNodeGridType()
+    public TileType GetTileType()
     {
-        return chunk.GetTileGridType();
+        return tileType;
+    }
+    public Quaternion GetTileOrientation()
+    {
+        return tileOrientation;
     }
 
     #endregion

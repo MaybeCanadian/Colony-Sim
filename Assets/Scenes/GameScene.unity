@@ -627,6 +627,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1459289462}
   - component: {fileID: 1459289463}
+  - component: {fileID: 1459289464}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -663,14 +664,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   map:
     tileGridType: 0
-    chunkGridType: 0
+    mapGridType: 0
     mapWidth: 0
     mapHeight: 0
-    chunkWidth: 0
-    chunkHeight: 0
-  mapWidth: 10
-  mapHeight: 10
-  chunkWidth: 10
-  chunkHeight: 10
+  mapWidth: 1000
+  mapHeight: 1000
   tileGridType: 0
   chunkGridType: 1
+--- !u!114 &1459289464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459289460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7227816472e35964ba9cbaefc7db652a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapTileParent: {fileID: 0}
+  mapObjectParent: {fileID: 0}
+  visualNodes: []
