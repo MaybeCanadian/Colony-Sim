@@ -15,6 +15,9 @@ static public class MapGenerator
     public delegate void MapGenerationCompleteEvent();
     public static MapGenerationCompleteEvent OnMapGenerationCompleteEvent;
 
+    public delegate void MapNodeGenerationCompleteEvent();
+    public static MapNodeGenerationCompleteEvent OnMapNodeGenerationCompleteEvent;
+
     public delegate void MapLoadCompleteEvent();
     public static MapLoadCompleteEvent OnMapLoadCompleteEvent;
 
@@ -43,10 +46,15 @@ static public class MapGenerator
 
         map.GenerateMapNodes();
 
+        OnMapNodeGenerationCompleteEvent?.Invoke();
+
+        map.RandomizeMap();
+
         OnMapGenerationCompleteEvent?.Invoke();
 
         OnMapCompletedEvent?.Invoke();
     }
+
     #endregion
 
     #region Map Loading

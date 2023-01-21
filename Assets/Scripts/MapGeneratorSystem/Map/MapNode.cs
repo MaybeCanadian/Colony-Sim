@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -62,9 +63,17 @@ public class MapNode
     {
         return tileType;
     }
+    public void SetTileType(TileType type)
+    {
+        tileType = type;
+    }
     public Quaternion GetTileOrientation()
     {
         return tileOrientation;
+    }
+    public void SetTileOrientation(float angle)
+    {
+        tileOrientation = new Quaternion(0.0f, angle, 0.0f, 1.0f);
     }
 
     #endregion

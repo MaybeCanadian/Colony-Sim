@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -10,7 +11,7 @@ public class MapObject
 {
     [Header("Nodes")]
     [SerializeField]
-    private MapNode[,] mapNodes;
+    private MapNode[] mapNodes;
 
     [Header("Map Information")]
     [SerializeField]
@@ -41,15 +42,13 @@ public class MapObject
         this.YTileOffset = YTileOffset;
     }
 
-    #region Map Generation Functions
+    #region Map Node Generation Functions
     public void GenerateMapNodes()
     {
         if(mapNodes != null)
         {
             DestroyMap();
         }
-
-        mapNodes = new MapNode[mapWidth, mapHeight];
 
         switch(mapGridType)
         {
@@ -68,21 +67,26 @@ public class MapObject
     }
     private void GenerateSquareMap()
     {
-        float z = 0.0f;
+        mapNodes = new MapNode[mapWidth * mapHeight];
+
+        Vector3 OffSetStart = new Vector3(XTileOffset * mapWidth / 2.0f, 0.0f, YTileOffset * mapHeight / 2.0f);
 
         float xPos = 0.0f;
         float yPos = 0.0f;
+
+        int itt = 0;
 
         for(int y = 0; y < mapHeight; y++)
         {
             for(int x = 0; x < mapWidth; x++)
             {
 
-                MapNode node = new MapNode(tileGridType, new Vector3(xPos, 0.0f, yPos));
+                MapNode node = new MapNode(tileGridType, new Vector3(xPos, 0.0f, yPos) - OffSetStart);
 
-                mapNodes[x, y] = node;
+                mapNodes[itt] = node;
 
                 xPos += XTileOffset;
+                itt++;
             }
 
             xPos = 0.0f;
@@ -95,27 +99,39 @@ public class MapObject
     }
     private void GenerateHexMap()
     {
-
+        mapNodes = new MapNode[0];
     }
 
     #endregion
 
-    #region Map Destruction Functions
-    public void DestroyMap()
+    #region Map Node Destruction Functions
+    public void DestroyMapNodes()
     {
-        for(int y = 0; y < mapHeight; y++)
+        for(int itt = 0; itt < mapNodes.Length; itt++)
         {
-            for(int x = 0; x < mapWidth; x++)
-            {
-                mapNodes[x, y].DestroyNode();
-
-                mapNodes[x, y] = null;
-            }
+            mapNodes[itt].DestroyNode();
+            mapNodes[itt] = null;
         }
 
         mapNodes = null;
 
         OnMapDestructionEvent?.Invoke();
+    }
+
+    #endregion
+
+    #region Map Generation Functions
+    public void RandomizeMap()
+    {
+        foreach(MapNode node in mapNodes)
+        {
+            int random = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TileType)).Length);
+
+            //float rot = (U;
+
+            node.SetTileType((TileType)random);
+            //node.SetTileOrientation(rot);
+        }
     }
 
     #endregion
@@ -153,9 +169,13 @@ public class MapObject
 
         return count;
     }
-    public MapNode GetMapNode(int x, int y)
+    public MapNode GetMapNode(int index)
     {
-        return mapNodes[x, y];
+        return mapNodes[index];
+    }
+    public int GetNumberOfNodes()
+    {
+        return mapNodes.Length;
     }
     #endregion
 }

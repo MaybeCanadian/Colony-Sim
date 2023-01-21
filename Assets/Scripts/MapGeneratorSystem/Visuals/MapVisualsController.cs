@@ -46,27 +46,23 @@ public class MapVisualsController : MonoBehaviour
 
         MapObject map = MapGenerator.GetMap();
 
-        int mapWidth = map.GetMapWidth();
-        int mapHeight = map.GetMapHeight();
+        int numNodes = map.GetNumberOfNodes();
 
-        for(int y = 0; y < mapHeight; y++)
+        for(int itt = 0; itt < numNodes; itt++)
         {
-            for(int x = 0; x < mapWidth; x++)
+            MapNode mapNode = map.GetMapNode(itt);
+
+            if (mapNode == null)
             {
-                MapNode mapNode = map.GetMapNode(x, y);
-
-                if(mapNode == null)
-                {
-                    Debug.LogError("ERROR - Map Node at given location is null.");
-                    continue;
-                }
-
-                TileType tileType = mapNode.GetTileType();
-                GameObject TileAsset = TileAssets.GetInstance().GetTileAsset(tileType);
-                GameObject visualNode = Instantiate(TileAsset, mapNode.GetNodePosition(), mapNode.GetTileOrientation(), mapTileParent.transform);
-
-                visualNode.name = "TILE at " + x + ", " + y;
+                Debug.LogError("ERROR - Map Node at given location is null.");
+                continue;
             }
+
+            TileType tileType = mapNode.GetTileType();
+            GameObject TileAsset = TileAssets.GetInstance().GetTileAsset(tileType);
+            GameObject visualNode = Instantiate(TileAsset, mapNode.GetNodePosition(), mapNode.GetTileOrientation(), mapTileParent.transform);
+
+            visualNode.name = "TILE number " + itt;
         }
     }
     private void CreateObjectVisuals()
