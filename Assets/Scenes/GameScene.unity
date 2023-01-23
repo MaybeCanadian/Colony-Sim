@@ -170,8 +170,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 0, z: -10}
-  m_XDamping: 1
+  m_FollowOffset: {x: 0.5, y: 0.5, z: -0.5}
+  m_XDamping: 2
   m_YDamping: 1
   m_ZDamping: 1
   m_AngularDampingMode: 0
@@ -242,8 +242,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 284572262}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.16, z: -5.82}
+  m_LocalRotation: {x: 0.27984813, y: -0.3647052, z: 0.1159169, w: 0.8804763}
+  m_LocalPosition: {x: 0.5, y: 1.639, z: -0.5}
   m_LocalScale: {x: 1, y: 1.2577506, z: 0.7648799}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -269,8 +269,8 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
+  m_LookAt: {fileID: 375648847}
+  m_Follow: {fileID: 375648847}
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 5
@@ -382,7 +382,7 @@ Transform:
   m_GameObject: {fileID: 375648843}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.139, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.15, z: 0.1}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -402,7 +402,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &705507993
 GameObject:
@@ -575,8 +575,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.16, z: -5.82}
+  m_LocalRotation: {x: 0.27984813, y: -0.3647052, z: 0.1159169, w: 0.8804763}
+  m_LocalPosition: {x: 0.5, y: 1.639, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -663,12 +663,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map:
+    mapNodes: []
     tileGridType: 0
     mapGridType: 0
     mapWidth: 0
     mapHeight: 0
-  mapWidth: 1000
-  mapHeight: 1000
+    XTileOffset: 0
+    YTileOffset: 0
+  mapWidth: 100
+  mapHeight: 100
+  XTileOffset: 2
+  YTileOffset: 1.75
   tileGridType: 0
   chunkGridType: 1
 --- !u!114 &1459289464
@@ -685,4 +690,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapTileParent: {fileID: 0}
   mapObjectParent: {fileID: 0}
-  visualNodes: []
+  deafultTileType: 0
