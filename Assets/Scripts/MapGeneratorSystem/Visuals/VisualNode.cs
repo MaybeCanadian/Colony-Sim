@@ -2,67 +2,118 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VisualNode
+public class VisualNode : MonoBehaviour
 {
-    [SerializeField]
-    MapNode mapNode;
+    Vector3 nodePosition;
+    GameObject tileObject;
 
-    [SerializeField]
-    GameObject NodeTile = null;
-
-    #region Event Handlers
-    public void ConnectEvents(MapNode node)
-    {
-        mapNode = node;
-
-        node.OnVisualValueChanged += OnVisualValueChangedEvent;
-        node.OnNodeCreateEvent += OnMapNodeCreateEvent;
-        node.OnNodeDestroyEvent += OnMapNodeDestroyEvent;
-    }
-    public void DisconnectEvents()
-    {
-        if (mapNode != null)
-        {
-            mapNode.OnVisualValueChanged -= OnVisualValueChangedEvent;
-            mapNode.OnNodeCreateEvent -= OnMapNodeCreateEvent;
-            mapNode.OnNodeDestroyEvent -= OnMapNodeDestroyEvent;
-        }
-
-        mapNode = null;
-    }
-    public void OnVisualValueChangedEvent()
-    {
-
-    }
-    public void OnMapNodeDestroyEvent()
-    {
-
-    }
-    public void OnMapNodeCreateEvent()
-    {
-
-    }
-
-    #endregion
-
-    #region Node LifeCycle
+    MapNode connectedMapNode;
 
     public VisualNode()
     {
-        //NodeTile = null;
-
-        //TileType defaultType = MapVisualsController.instance.GetDefaultTileType();
-
-        //GameObject defaultTile = TileAssets.GetInstance().GetTileAsset(defaultType);
-
-        //NodeTile = Instantiate(defaultTile, transform);
+        nodePosition = Vector3.zero;
+        tileObject = null;
+        connectedMapNode = null;
     }
-    //public void DestroyNode()
-    //{
-    //    Destroy(NodeTile);
-    //    mapNode = null;
-    //    Destroy(gameObject);
-    //}
 
+    #region Visual Node Events
+    private void ConnectNodeEvent()
+    {
+        connectedMapNode.OnNodeVisualsChangedEvent += OnNodeVisualsChanged;
+        connectedMapNode.OnNodeDestroyEvent += OnConnectedNodeDestroy;
+    }
+    private void DisconnectNodeEvents()
+    {
+        connectedMapNode.OnNodeVisualsChangedEvent -= OnNodeVisualsChanged;
+        connectedMapNode.OnNodeDestroyEvent -= OnConnectedNodeDestroy;
+    }
+    #endregion
+
+    #region Visuals Show and Hide
+    public void ShowNodeVisuals()
+    {
+        if(connectedMapNode == null)
+        {
+            Debug.LogError("ERROR - Cannot show visuals, no mapNode is connected");
+            return;
+        }
+
+        if(tileObject != null)
+        {
+            tileObject.SetActive(true);
+            return;
+        }
+
+        CreateTile();
+        return;
+
+
+    }
+    private void CreateTile()
+    {
+        GameObject TileAsset = TileAssets.GetInstance().GetTileAsset(connectedMapNode.GetTileType());
+        tileObject = Instantiate(TileAsset, connectedMapNode.GetNodePosition(), connectedMapNode.GetTileOrientation(), transform);
+    }
+    public void HideNodeVisuals()
+    {
+        if(tileObject == null)
+        {
+            Debug.LogError("ERROR - cannot hide visuals as tile Object does not exist");
+            return;
+        }
+
+        tileObject.SetActive(false);
+    }
+    public void DestroyMapVisualS()
+    {
+        if(tileObject == null)
+        {
+            Debug.LogError("ERROR - cannot destroy the map visuals as tile Object does not exist");
+            return;
+        }
+
+        Destroy(tileObject);
+
+        tileObject = null;
+    }
+    public void DestroyMapVisualNode()
+    {
+        DisconnectNodeEvents();
+
+        Destroy(gameObject);
+    }
+    #endregion
+
+    #region Visual Node Info Functions
+    public void ConnectMapNode(MapNode connected)
+    {
+        connectedMapNode = connected;
+
+        ConnectNodeEvent();
+    }
+    public void SetNodePosition(Vector3 input)
+    {
+        nodePosition = input;
+    }
+    #endregion
+
+    #region Connected Node Events
+    private void OnConnectedNodeDestroy()
+    {
+        DisconnectNodeEvents();
+
+        connectedMapNode = null;
+    }
+    private void OnNodeVisualsChanged()
+    {
+        if(tileObject == null)
+        {
+            return;
+        }
+
+        Destroy(tileObject);
+
+        CreateTile();
+    }
     #endregion
 }

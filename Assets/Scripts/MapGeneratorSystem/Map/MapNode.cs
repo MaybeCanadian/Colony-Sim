@@ -17,8 +17,8 @@ public class MapNode
 
     #region Event Dispatchers
 
-    public delegate void VisualValueChanged();
-    public VisualValueChanged OnVisualValueChanged;
+    public delegate void NodeVisualValueChangedEvent();
+    public NodeVisualValueChangedEvent OnNodeVisualsChangedEvent;
 
     public delegate void NodeCreateEvent();
     public NodeCreateEvent OnNodeCreateEvent;
@@ -66,6 +66,8 @@ public class MapNode
     public void SetTileType(TileType type)
     {
         tileType = type;
+
+        OnNodeVisualsChangedEvent?.Invoke();
     }
     public Quaternion GetTileOrientation()
     {
@@ -74,6 +76,8 @@ public class MapNode
     public void SetTileOrientation(float angle)
     {
         tileOrientation = new Quaternion(0.0f, angle, 0.0f, 1.0f);
+
+        OnNodeVisualsChangedEvent?.Invoke();
     }
 
     #endregion

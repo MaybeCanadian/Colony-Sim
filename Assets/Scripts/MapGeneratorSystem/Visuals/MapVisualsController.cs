@@ -59,10 +59,16 @@ public class MapVisualsController : MonoBehaviour
             }
 
             TileType tileType = mapNode.GetTileType();
-            GameObject TileAsset = TileAssets.GetInstance().GetTileAsset(tileType);
-            GameObject visualNode = Instantiate(TileAsset, mapNode.GetNodePosition(), mapNode.GetTileOrientation(), mapTileParent.transform);
 
-            visualNode.name = "TILE number " + itt;
+            GameObject visualNodeObject = new GameObject();
+
+            visualNodeObject.transform.SetParent(mapTileParent.transform);
+
+            VisualNode visualNode = visualNodeObject.AddComponent<VisualNode>();
+            visualNode.ConnectMapNode(mapNode);
+            visualNode.ShowNodeVisuals();
+
+            visualNodeObject.name = "TILE number " + itt;
         }
     }
     private void CreateObjectVisuals()

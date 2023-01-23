@@ -237,6 +237,34 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "Debug",
+            "id": "4185b511-4a39-4b9b-a23f-5ae1ed1b111c",
+            "actions": [
+                {
+                    "name": "RegenMap",
+                    "type": "Button",
+                    "id": "44bce054-24f8-4735-a0d0-1b129a7bc1ed",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e280862b-0f59-4e52-ba9a-ea514f9a2769",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RegenMap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

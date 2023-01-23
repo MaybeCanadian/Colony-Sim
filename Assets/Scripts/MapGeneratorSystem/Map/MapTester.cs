@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MapTester : MonoBehaviour
 {
@@ -21,7 +23,6 @@ public class MapTester : MonoBehaviour
     private GridType tileGridType = GridType.HEX;
     [SerializeField]
     private GridType chunkGridType = GridType.SQUARE;
-
     private void Start()
     {
         MapGenerator.GenerateMap(tileGridType, chunkGridType, mapWidth, mapHeight, XTileOffset, YTileOffset);
@@ -31,4 +32,15 @@ public class MapTester : MonoBehaviour
 
         MapVisualsController.instance.CreateMapVisuals();
     }
+
+    public void OnMapRegenEvent(InputAction.CallbackContext context)
+    {
+
+        if (context.started)
+        {
+            map.RandomizeMap();
+            Debug.Log("regen map");
+        }
+    }
+
 }
