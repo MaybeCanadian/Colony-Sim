@@ -43,7 +43,15 @@ public class PathFindingNode
     }
     private void SetUpHexNode()
     {
-        connectedNodes = new PathFindingNode[6];
+        connectedNodes = new PathFindingNode[6]
+        {
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        };
 
         connectionsDictionary = new Dictionary<NodeConnectionDirections, PathFindingNode>
         {
@@ -57,7 +65,13 @@ public class PathFindingNode
     }
     private void SetUpSquareNode()
     {
-        connectedNodes = new PathFindingNode[4];
+        connectedNodes = new PathFindingNode[4]
+        {
+            null,
+            null,
+            null,
+            null
+        };
 
         connectionsDictionary = new Dictionary<NodeConnectionDirections, PathFindingNode>
         {
@@ -111,6 +125,11 @@ public class PathFindingNode
 
         numConnectedNodes++;
         connectionsDictionary[side] = node;
+
+        if (connectionsDictionary[side] != null)
+        {
+            Debug.Log("okay");
+        }
     }
     public PathFindingNode GetConnectedNodeOnSide(NodeConnectionDirections side)
     {
