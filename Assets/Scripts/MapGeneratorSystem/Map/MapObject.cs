@@ -127,10 +127,7 @@ public class MapObject
         {
             int random = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TileType)).Length);
 
-            //float rot = (U;
-
             node.SetTileType((TileType)random);
-            //node.SetTileOrientation(rot);
         }
     }
 
