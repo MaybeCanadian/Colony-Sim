@@ -52,7 +52,7 @@ public class VisualNode : MonoBehaviour
     private void CreateTile()
     {
         GameObject TileAsset = TileAssets.GetInstance().GetTileAsset(connectedMapNode.GetTileType());
-        tileObject = Instantiate(TileAsset, connectedMapNode.GetNodePosition(), Quaternion.identity, transform);
+        tileObject = Instantiate(TileAsset, transform);
     }
     public void HideNodeVisuals()
     {
@@ -88,6 +88,8 @@ public class VisualNode : MonoBehaviour
     public void ConnectMapNode(MapNode connected)
     {
         connectedMapNode = connected;
+
+        transform.position = connected.GetNodePosition();
 
         ConnectNodeEvent();
     }

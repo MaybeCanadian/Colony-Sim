@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class TileAssets
@@ -9,6 +10,8 @@ public class TileAssets
 
     private List<GameObject> tiles;
     private const string tilePath = "Prefabs/Tiles/";
+
+    private Dictionary<TileType, int> tileWalkWeightDictionary;
     public static TileAssets GetInstance()
     {
         if (instance == null)
@@ -21,6 +24,27 @@ public class TileAssets
     private TileAssets()
     {
         LoadTileAssetss();
+
+        GenerateWalkableDict();
+    }
+    public int GetTileWeight(TileType type)
+    {
+        if(!tileWalkWeightDictionary.ContainsKey(type))
+        {
+            Debug.LogError("Weight Dict does not contain the given type");
+            return 1;
+        }
+
+        return tileWalkWeightDictionary[type];
+    }
+    private void GenerateWalkableDict()
+    {
+        tileWalkWeightDictionary = new Dictionary<TileType, int>();
+
+        tileWalkWeightDictionary.Add(TileType.GRASS_EMPTY, 1);
+        tileWalkWeightDictionary.Add(TileType.GRASS_ROAD, 1);
+        tileWalkWeightDictionary.Add(TileType.WATER, -1);
+
     }
     private void LoadTileAssetss()
     {

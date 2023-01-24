@@ -10,9 +10,14 @@ public class PathFindingNode
 
     [SerializeField]
     bool isWalkable;
+    [SerializeField]
+    int tileWeight;
 
     [SerializeField]
     GridType nodeType;
+
+    [SerializeField]
+    int numConnectedNodes;
 
     PathFindingNode[] connectedNodes;
     Dictionary<NodeConnectionDirections, PathFindingNode> connectionsDictionary;
@@ -23,6 +28,8 @@ public class PathFindingNode
         this.nodeType = nodeType;
         this.nodePosition = nodePosition;
         this.isWalkable = isWalkable;
+
+        numConnectedNodes = 0;
 
         switch (nodeType)
         {
@@ -38,23 +45,27 @@ public class PathFindingNode
     {
         connectedNodes = new PathFindingNode[6];
 
-        connectionsDictionary = new Dictionary<NodeConnectionDirections, PathFindingNode>();
-        connectionsDictionary.Add(NodeConnectionDirections.UP, connectedNodes[0]);
-        connectionsDictionary.Add(NodeConnectionDirections.UP_RIGHT, connectedNodes[1]);
-        connectionsDictionary.Add(NodeConnectionDirections.DOWN_RIGHT, connectedNodes[2]);
-        connectionsDictionary.Add(NodeConnectionDirections.DOWN, connectedNodes[3]);
-        connectionsDictionary.Add(NodeConnectionDirections.DOWN_LEFT, connectedNodes[4]);
-        connectionsDictionary.Add(NodeConnectionDirections.UP_LEFT, connectedNodes[5]);
+        connectionsDictionary = new Dictionary<NodeConnectionDirections, PathFindingNode>
+        {
+            { NodeConnectionDirections.LEFT, connectedNodes[0] },
+            { NodeConnectionDirections.UP_LEFT, connectedNodes[1] },
+            { NodeConnectionDirections.UP_RIGHT, connectedNodes[2] },
+            { NodeConnectionDirections.RIGHT, connectedNodes[3] },
+            { NodeConnectionDirections.DOWN_RIGHT, connectedNodes[4] },
+            { NodeConnectionDirections.DOWN_LEFT, connectedNodes[5] }
+        };
     }
     private void SetUpSquareNode()
     {
         connectedNodes = new PathFindingNode[4];
 
-        connectionsDictionary = new Dictionary<NodeConnectionDirections, PathFindingNode>();
-        connectionsDictionary.Add(NodeConnectionDirections.UP, connectedNodes[0]);
-        connectionsDictionary.Add(NodeConnectionDirections.RIGHT, connectedNodes[1]);
-        connectionsDictionary.Add(NodeConnectionDirections.DOWN, connectedNodes[2]);
-        connectionsDictionary.Add(NodeConnectionDirections.LEFT, connectedNodes[3]);
+        connectionsDictionary = new Dictionary<NodeConnectionDirections, PathFindingNode>
+        {
+            { NodeConnectionDirections.UP, connectedNodes[0] },
+            { NodeConnectionDirections.RIGHT, connectedNodes[1] },
+            { NodeConnectionDirections.DOWN, connectedNodes[2] },
+            { NodeConnectionDirections.LEFT, connectedNodes[3] }
+        };
     }
 
     #endregion
@@ -64,6 +75,19 @@ public class PathFindingNode
     public bool GetIfNodeWalkable()
     {
         return isWalkable;
+    }
+    public int GetTileWeight()
+    {
+        return tileWeight;
+    }
+    public void SetTileWeight(int input)
+    {
+        tileWeight = input;
+
+        if(tileWeight < 0)
+        {
+            isWalkable = false;
+        }
     }
     public GridType GetNodeType()
     {
@@ -85,6 +109,7 @@ public class PathFindingNode
             return;
         }
 
+        numConnectedNodes++;
         connectionsDictionary[side] = node;
     }
     public PathFindingNode GetConnectedNodeOnSide(NodeConnectionDirections side)

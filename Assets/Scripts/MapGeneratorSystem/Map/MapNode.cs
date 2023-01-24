@@ -13,6 +13,9 @@ public class MapNode
     [SerializeField]
     private TileType tileType;
 
+    [SerializeField]
+    int nodeID;
+
     #region Event Dispatchers
 
     public delegate void NodeVisualValueChangedEvent();
@@ -30,11 +33,12 @@ public class MapNode
     #endregion
 
     #region Node LifeCycle
-    public MapNode(GridType nodeType, Vector3 nodePosition)
+    public MapNode(GridType nodeType, Vector3 nodePosition, int nodeID)
     {
         OnNodeCreateEvent?.Invoke();
 
         pathFindingNode = new PathFindingNode(nodeType, nodePosition);
+        this.nodeID = nodeID;
     }
 
     public void DestroyNode()
@@ -60,9 +64,11 @@ public class MapNode
     {
         return tileType;
     }
-    public void SetTileType(TileType type)
+    public void SetTileType(TileType type, int weight)
     {
         tileType = type;
+
+        pathFindingNode.SetTileWeight(weight);
 
         OnNodeVisualsChangedEvent?.Invoke();
     }
@@ -76,6 +82,14 @@ public class MapNode
     {
         return tileRotation;
     }
+    public int GetNodeID()
+    {
+        return nodeID;
+    }
+    public void SetNodeID(int input)
+    {
+        nodeID = input;
+    } 
 
     #endregion
 }

@@ -46,30 +46,35 @@ public class MapVisualsController : MonoBehaviour
 
         MapObject map = MapGenerator.GetMap();
 
-        int numNodes = map.GetNumberOfNodes();
+        int nodesX = map.GetMapWidth();
+        int nodesY = map.GetMapHeight();
 
-        for(int itt = 0; itt < numNodes; itt++)
+        for(int x = 0; x < nodesX; x++)
         {
-            MapNode mapNode = map.GetMapNode(itt);
-
-            if (mapNode == null)
+            for(int y = 0; y < nodesY; y++)
             {
-                Debug.LogError("ERROR - Map Node at given location is null.");
-                continue;
+                MapNode mapNode = map.GetMapNode(x, y);
+
+                if (mapNode == null)
+                {
+                    Debug.LogError("ERROR - Map Node at given location is null.");
+                    continue;
+                }
+
+                TileType tileType = mapNode.GetTileType();
+
+                GameObject visualNodeObject = new GameObject();
+
+                visualNodeObject.transform.SetParent(mapTileParent.transform);
+
+                VisualNode visualNode = visualNodeObject.AddComponent<VisualNode>();
+                visualNode.ConnectMapNode(mapNode);
+                visualNode.ShowNodeVisuals();
+
+                visualNodeObject.name = "TILE number " + x + ", " + y;
             }
-
-            TileType tileType = mapNode.GetTileType();
-
-            GameObject visualNodeObject = new GameObject();
-
-            visualNodeObject.transform.SetParent(mapTileParent.transform);
-
-            VisualNode visualNode = visualNodeObject.AddComponent<VisualNode>();
-            visualNode.ConnectMapNode(mapNode);
-            visualNode.ShowNodeVisuals();
-
-            visualNodeObject.name = "TILE number " + itt;
         }
+
     }
     private void CreateObjectVisuals()
     {

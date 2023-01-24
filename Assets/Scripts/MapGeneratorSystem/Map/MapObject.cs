@@ -11,7 +11,7 @@ public class MapObject
 {
     [Header("Nodes")]
     [SerializeField]
-    private MapNode[] mapNodes;
+    private MapNode[,] mapNodes;
 
     [Header("Map Information")]
     [SerializeField]
@@ -67,7 +67,7 @@ public class MapObject
     }
     private void GenerateSquareMap()
     {
-        mapNodes = new MapNode[mapWidth * mapHeight];
+        mapNodes = new MapNode[mapWidth, mapHeight];
 
         Vector3 OffSetStart = new Vector3(XTileOffset * mapWidth / 2.0f, 0.0f, YTileOffset * mapHeight / 2.0f);
 
@@ -76,30 +76,60 @@ public class MapObject
 
         int itt = 0;
 
-        for(int y = 0; y < mapHeight; y++)
+        for(int x = 0; x < mapWidth; x++)
         {
-            for(int x = 0; x < mapWidth; x++)
+            for(int y = 0; y < mapHeight; y++)
             {
+                Vector3 nodeLocation = new Vector3(yPos, 0.0f, xPos) - OffSetStart;
 
-                MapNode node = new MapNode(tileGridType, new Vector3(xPos, 0.0f, yPos) - OffSetStart);
+                MapNode node = new MapNode(tileGridType, nodeLocation, itt);
 
-                mapNodes[itt] = node;
+                ConnectNodeInSequence(node, x, y);
 
-                xPos += XTileOffset;
+                mapNodes[x, y] = node;
+
+                yPos += YTileOffset;
+
                 itt++;
             }
 
-            xPos = 0.0f;
-            if(y % 2 == 0)
+            yPos = 0.0f;
+            if(x % 2 == 0)
             {
-                xPos += XTileOffset / 2.0f;
+                yPos += YTileOffset / 2.0f;
             }
-            yPos += YTileOffset;
+            xPos += XTileOffset;
+        }
+    }
+    private void ConnectNodeInSequence(MapNode node, int x, int y)
+    {
+        if(y > 0)
+        {
+            MapNode leftNode = mapNodes[x, y - 1];
+            node.GetPathNode().ConnectNodeOnSide(NodeConnectionDirections.LEFT, leftNode.GetPathNode());
+
+            leftNode.GetPathNode().ConnectNodeOnSide(NodeConnectionDirections.RIGHT, node.GetPathNode());
+        }
+
+        if(x > 0)
+        {
+            MapNode downLeftNode = mapNodes[x - 1, y];
+            node.GetPathNode().ConnectNodeOnSide(NodeConnectionDirections.DOWN_LEFT, downLeftNode.GetPathNode());
+
+            downLeftNode.GetPathNode().ConnectNodeOnSide(NodeConnectionDirections.UP_RIGHT, node.GetPathNode());
+
+            if (y < mapHeight - 1)
+            {
+                MapNode downRightNode = mapNodes[x - 1, y + 1];
+                node.GetPathNode().ConnectNodeOnSide(NodeConnectionDirections.DOWN_RIGHT, downRightNode.GetPathNode());
+
+                downRightNode.GetPathNode().ConnectNodeOnSide(NodeConnectionDirections.UP_LEFT, node.GetPathNode());
+            }
         }
     }
     private void GenerateHexMap()
     {
-        mapNodes = new MapNode[0];
+        mapNodes = new MapNode[0, 0];
     }
 
     #endregion
@@ -107,10 +137,14 @@ public class MapObject
     #region Map Node Destruction Functions
     public void DestroyMapNodes()
     {
-        for(int itt = 0; itt < mapNodes.Length; itt++)
+
+        for(int x = 0; x < mapWidth; x++)
         {
-            mapNodes[itt].DestroyNode();
-            mapNodes[itt] = null;
+            for(int y = 0; y < mapHeight; y++)
+            {
+                mapNodes[x, y].DestroyNode();
+                mapNodes[x, y] = null;
+            }
         }
 
         mapNodes = null;
@@ -127,7 +161,9 @@ public class MapObject
         {
             int random = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TileType)).Length);
 
-            node.SetTileType((TileType)random);
+            int tileWeight = TileAssets.GetInstance().GetTileWeight((TileType)random);
+
+            node.SetTileType((TileType)random, tileWeight);
         }
     }
 
@@ -166,9 +202,9 @@ public class MapObject
 
         return count;
     }
-    public MapNode GetMapNode(int index)
+    public MapNode GetMapNode(int x, int y)
     {
-        return mapNodes[index];
+        return mapNodes[x, y];
     }
     public int GetNumberOfNodes()
     {
