@@ -43,4 +43,20 @@ public class MapTester : MonoBehaviour
         }
     }
 
+    public void OnDestroyMap(InputAction.CallbackContext context) 
+    {
+        if (context.started)
+        {
+            MapVisualsController.instance.DestroyMapVisuals();
+        }
+    }
+
+    public void OnRecreateMap(InputAction.CallbackContext context)
+    {
+        if(context.started)
+        {
+            MapVisualsController.instance.CreateMapVisuals();
+        }
+    }
+
 }

@@ -171,9 +171,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 1
   m_FollowOffset: {x: 0.5, y: 0.75, z: -0.5}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -242,7 +242,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 284572262}
-  m_LocalRotation: {x: 0.36607417, y: -0.3513603, z: 0.15163286, w: 0.8482589}
+  m_LocalRotation: {x: 0.36607417, y: -0.35136035, z: 0.1516329, w: 0.84825885}
   m_LocalPosition: {x: 0.5, y: 1.889, z: -0.5}
   m_LocalScale: {x: 1, y: 1.2577507, z: 0.76487994}
   m_ConstrainProportionsScale: 0
@@ -435,6 +435,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 3597e1b0-f4a0-4b2e-af7d-bd23b3be7eef
     m_ActionName: PlayerMovement/RegenMap[/Keyboard/space,/XInputControllerWindows/select]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1823ac59-5608-4dc9-8668-ee47bd45f286
+    m_ActionName: PlayerMovement/DestroyMap[/Keyboard/p]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f9ca85b3-8287-49bb-9d8e-10a893c756f7
+    m_ActionName: PlayerMovement/RecreateMap[/Keyboard/l]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerMovement
@@ -452,7 +460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 547d9219e11229040a37e9dc06653141, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 1
+  movementSpeed: 0.4
 --- !u!143 &375648851
 CharacterController:
   m_ObjectHideFlags: 0
@@ -642,7 +650,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.36607417, y: -0.3513603, z: 0.15163286, w: 0.8482589}
+  m_LocalRotation: {x: 0.36607417, y: -0.35136035, z: 0.1516329, w: 0.84825885}
   m_LocalPosition: {x: 0.5, y: 1.889, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -738,8 +746,8 @@ MonoBehaviour:
     mapHeight: 0
     XTileOffset: 0
     YTileOffset: 0
-  mapWidth: 100
-  mapHeight: 100
+  mapWidth: 10
+  mapHeight: 10
   XTileOffset: 2
   YTileOffset: 1.75
   tileGridType: 0
@@ -804,6 +812,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 3597e1b0-f4a0-4b2e-af7d-bd23b3be7eef
     m_ActionName: PlayerMovement/RegenMap[/Keyboard/space,/XInputControllerWindows/select]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1459289463}
+        m_TargetAssemblyTypeName: MapTester, Assembly-CSharp
+        m_MethodName: OnDestroyMap
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1823ac59-5608-4dc9-8668-ee47bd45f286
+    m_ActionName: PlayerMovement/DestroyMap[/Keyboard/p]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1459289463}
+        m_TargetAssemblyTypeName: MapTester, Assembly-CSharp
+        m_MethodName: OnRecreateMap
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f9ca85b3-8287-49bb-9d8e-10a893c756f7
+    m_ActionName: PlayerMovement/RecreateMap[/Keyboard/l]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerMovement

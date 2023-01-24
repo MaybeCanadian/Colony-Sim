@@ -2,7 +2,7 @@
     "name": "MainActions",
     "maps": [
         {
-            "name": "PlayerMovement",
+            "name": "MainGame",
             "id": "598bfa65-5492-41fb-b192-02cf07ae904d",
             "actions": [
                 {
@@ -18,6 +18,24 @@
                     "name": "RegenMap",
                     "type": "Button",
                     "id": "3597e1b0-f4a0-4b2e-af7d-bd23b3be7eef",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DestroyMap",
+                    "type": "Button",
+                    "id": "1823ac59-5608-4dc9-8668-ee47bd45f286",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RecreateMap",
+                    "type": "Button",
+                    "id": "f9ca85b3-8287-49bb-9d8e-10a893c756f7",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -264,6 +282,28 @@
                     "processors": "",
                     "groups": "GamePad",
                     "action": "RegenMap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e6b4eea1-0b4f-4dbc-a35f-63dc7ab2cd0e",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DestroyMap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b287316d-e540-4465-a3b9-1e8e56bf26d8",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RecreateMap",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
