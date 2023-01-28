@@ -11,6 +11,7 @@ public class TileAssets
     private List<GameObject> tiles;
     private const string tilePath = "Prefabs/Tiles/";
 
+    #region Init Functions
     private Dictionary<TileType, int> tileWalkWeightDictionary;
     public static TileAssets GetInstance()
     {
@@ -27,6 +28,9 @@ public class TileAssets
 
         GenerateWalkableDict();
     }
+    #endregion
+
+    #region Tile Value Functins
     public int GetTileWeight(TileType type)
     {
         if(!tileWalkWeightDictionary.ContainsKey(type))
@@ -78,5 +82,6 @@ public class TileAssets
 
         return tiles[(int)type];
     }
+    #endregion
 
 }

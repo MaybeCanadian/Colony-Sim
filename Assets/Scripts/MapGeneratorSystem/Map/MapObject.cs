@@ -206,6 +206,18 @@ public class MapObject
     {
         return mapNodes[x, y];
     }
+    public MapNode GetNodeByPos(Vector3 pos) //might need to change this to be a bit more optimized. Maybe use chunk based sorting to reduce number to check
+    {
+        foreach (MapNode node in mapNodes)
+        {
+            if(node.GetNodePosition() == pos)
+            {
+                return node;
+            }
+        }
+
+        return null;
+    }
     public int GetNumberOfNodes()
     {
         return mapNodes.Length;
