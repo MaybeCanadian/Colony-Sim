@@ -445,7 +445,7 @@ MonoBehaviour:
     m_ActionName: PlayerMovement/RecreateMap[/Keyboard/l]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: PlayerMovement
+  m_DefaultActionMap: MainGame
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &375648850
@@ -739,7 +739,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map:
-    mapNodes: []
     tileGridType: 0
     mapGridType: 0
     mapWidth: 0
@@ -748,8 +747,8 @@ MonoBehaviour:
     YTileOffset: 0
   mapWidth: 10
   mapHeight: 10
-  XTileOffset: 2
-  YTileOffset: 1.75
+  XTileOffset: 1.75
+  YTileOffset: 2
   tileGridType: 0
   chunkGridType: 1
 --- !u!114 &1459289464
@@ -846,6 +845,6 @@ MonoBehaviour:
     m_ActionName: PlayerMovement/RecreateMap[/Keyboard/l]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: PlayerMovement
+  m_DefaultActionMap: MainGame
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
