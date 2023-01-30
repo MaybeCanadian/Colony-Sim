@@ -17,54 +17,35 @@ public static class PathingSystem
             path.AddNodeToPath(end);
         }
 
+        //TO DO: add pathfinding code A*
+
         return path;
     }
     public static PathingPath GetPathFromPosToNode(Vector3 start, PathFindingNode end)
     {
-        PathingPath path = new PathingPath();
-
         MapObject map = MapGenerator.GetMap();
 
         PathFindingNode startNode = map.GetNodeByPos(start).GetPathNode();
 
-        if (startNode == end)
-        {
-            path.AddNodeToPath(end);
-        }
-
-        return path;
+        return GetPathFromNodeToNode(startNode, end);
     }
     public static PathingPath GetPathFromNodeToPos(PathFindingNode start, Vector3 end)
     {
-        PathingPath path = new PathingPath();
-
         MapObject map = MapGenerator.GetMap();
 
         PathFindingNode endNode = map.GetNodeByPos(end).GetPathNode();
 
-        if (start == endNode)
-        {
-            path.AddNodeToPath(endNode);
-        }
-
-        return path;
+        return GetPathFromNodeToNode(start, endNode);
     }
     public static PathingPath GetPathFromPosToPos(Vector3 start, Vector3 end)
     {
-        PathingPath path = new PathingPath();
-
         MapObject map = MapGenerator.GetMap();
 
         PathFindingNode endNode = map.GetNodeByPos(end).GetPathNode();
 
         PathFindingNode startNode = map.GetNodeByPos(start).GetPathNode();
 
-        if (startNode == endNode)
-        {
-            path.AddNodeToPath(endNode);
-        }
-
-        return path;
+        return GetPathFromNodeToNode(startNode, endNode);
     }
     #endregion
 }
