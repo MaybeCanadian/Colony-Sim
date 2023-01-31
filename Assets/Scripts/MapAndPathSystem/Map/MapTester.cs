@@ -31,6 +31,8 @@ public class MapTester : MonoBehaviour
         Debug.Log("Node count is - " + map.GetNodeCount());
 
         MapVisualsController.instance.CreateMapVisuals();
+
+        PathingSystem.GetPathFromGridPosToGridPos(new Vector2Int(1, 1), new Vector2Int(4, 4));
     }
 
     public void OnMapRegenEvent(InputAction.CallbackContext context)

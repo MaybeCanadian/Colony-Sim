@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -156,6 +157,20 @@ public class PathFindingNode
         }
 
         return connectionsDictionary[side].GetIfNodeWalkable();
+    }
+    public List<PathFindingNode> GetAllConnectedNodes()
+    {
+        List<PathFindingNode> tempConnectedList = new List<PathFindingNode>();
+
+        foreach(PathFindingNode node in connectedNodes)
+        {
+            if(node != null)
+            {
+                tempConnectedList.Add(node);
+            }
+        }
+
+        return tempConnectedList;
     }
 
     #endregion
