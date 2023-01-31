@@ -12,12 +12,15 @@ public static class PathingSystem
 
         MapObject map = MapGenerator.GetMap();
 
+        List<PathFindingNode> openNodes = new List<PathFindingNode>();
+        List<PathFindingNode> closedNodes = new List<PathFindingNode>();
+
         if (start == end)
         {
             path.AddNodeToPath(end);
         }
 
-        //TO DO: add pathfinding code A*
+
 
         return path;
     }
