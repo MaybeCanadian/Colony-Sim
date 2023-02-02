@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -179,6 +180,32 @@ public class PathFindingNode
     public void DestroyNode()
     {
 
+    }
+
+    #endregion
+
+    #region Debug Functions
+
+    public void PrintNodeType()
+    {
+        Debug.Log("My node type is " + nodeType);
+    }
+    public void PrintNeightbourPos()
+    {
+        string fullList = "All neighbours are: ";
+
+        foreach (int dir in Enum.GetValues(typeof(NodeConnectionDirections)))
+        {
+            if(!connectionsDictionary.ContainsKey((NodeConnectionDirections)dir))
+            {
+                //Debug.Log("Skipping " + (NodeConnectionDirections)dir);
+                continue;
+            }
+
+            fullList += (NodeConnectionDirections)dir + ": is " + connectionsDictionary[(NodeConnectionDirections)dir].GetNodePosition();
+        }
+
+        Debug.Log(fullList);
     }
 
     #endregion

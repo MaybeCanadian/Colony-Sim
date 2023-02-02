@@ -32,7 +32,10 @@ public class MapTester : MonoBehaviour
 
         MapVisualsController.instance.CreateMapVisuals();
 
-        PathingSystem.GetPathFromGridPosToGridPos(new Vector2Int(1, 1), new Vector2Int(4, 4));
+        map.GetMapNode(1, 1).GetPathNode().PrintNodeType();
+        map.GetMapNode(1, 1).GetPathNode().PrintNeightbourPos();
+
+        //PathingSystem.GetPathFromGridPosToGridPos(new Vector2Int(1, 1), new Vector2Int(4, 4));
     }
 
     public void OnMapRegenEvent(InputAction.CallbackContext context)
