@@ -15,6 +15,7 @@ public class MapNode
 
     [SerializeField]
     int nodeID;
+    Vector2 gridPos;
 
     #region Event Dispatchers
 
@@ -33,12 +34,13 @@ public class MapNode
     #endregion
 
     #region Node LifeCycle
-    public MapNode(GridType nodeType, Vector3 nodePosition, int nodeID)
+    public MapNode(GridType nodeType, Vector3 nodePosition, Vector2 gridPosition, int nodeID)
     {
         OnNodeCreateEvent?.Invoke();
-
-        pathFindingNode = new PathFindingNode(nodeType, nodePosition);
+        this.gridPos = gridPosition;
         this.nodeID = nodeID;
+
+        pathFindingNode = new PathFindingNode(nodeType, nodePosition, gridPos);
     }
 
     public void DestroyNode()

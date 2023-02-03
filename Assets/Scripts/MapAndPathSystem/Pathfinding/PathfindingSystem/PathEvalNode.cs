@@ -51,6 +51,10 @@ public class PathEvalNode
     {
         currentNodeState = newState;
     }
+    public PathFindingNode GetConnectedPathfindingNode()
+    {
+        return connectedNode;
+    }
 
     #endregion
 

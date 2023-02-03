@@ -8,7 +8,8 @@ using UnityEngine;
 public class PathFindingNode
 {
     [SerializeField]
-    Vector3 nodePosition;
+    Vector3 nodeWorldPosition;
+    Vector2 nodeGridPosition;
 
     [SerializeField]
     bool isWalkable;
@@ -25,11 +26,12 @@ public class PathFindingNode
     Dictionary<NodeConnectionDirections, PathFindingNode> connectionsDictionary;
 
     #region Init Functions
-    public PathFindingNode(GridType nodeType, Vector3 nodePosition, bool isWalkable = true)
+    public PathFindingNode(GridType nodeType, Vector3 nodePosition, Vector2 gridPosition, bool isWalkable = true)
     {
         this.nodeType = nodeType;
-        this.nodePosition = nodePosition;
+        this.nodeWorldPosition = nodePosition;
         this.isWalkable = isWalkable;
+        this.nodeGridPosition = gridPosition;
 
         numConnectedNodes = 0;
 
@@ -111,7 +113,7 @@ public class PathFindingNode
     }
     public Vector3 GetNodePosition()
     {
-        return nodePosition;
+        return nodeWorldPosition;
     }
 
     #endregion
@@ -176,6 +178,10 @@ public class PathFindingNode
 
         return tempConnectedList;
     }
+    public Vector2 getNodeGridPos()
+    {
+        return nodeGridPosition;
+    }
 
     #endregion
 
@@ -188,7 +194,6 @@ public class PathFindingNode
     #endregion
 
     #region Debug Functions
-
     public void PrintNodeType()
     {
         Debug.Log("My node type is " + nodeType);
@@ -210,6 +215,5 @@ public class PathFindingNode
 
         Debug.Log(fullList);
     }
-
     #endregion
 }

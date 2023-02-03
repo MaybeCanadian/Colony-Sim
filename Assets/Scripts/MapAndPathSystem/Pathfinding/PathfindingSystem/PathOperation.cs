@@ -10,6 +10,7 @@ public class PathOperation
     public Dictionary<PathFindingNode, PathEvalNode> activeNodeDict;
 
     public List<PathEvalNode> openNodes;
+    public List<PathEvalNode> closedNodes;
 
     public PathEvalNode startNodeRef;
     public PathEvalNode endNodeRef;
@@ -21,6 +22,7 @@ public class PathOperation
         activeNodeDict = new Dictionary<PathFindingNode, PathEvalNode>();
 
         openNodes = new List<PathEvalNode>();
+        closedNodes = new List<PathEvalNode>();
 
         SetStartNode(start);
         SetEndNode(end);
@@ -102,7 +104,9 @@ public class PathOperation
 
         route = DeterminePath();
 
-        return false;
+        CleanUpOperation();
+
+        return true;
     }
     private PathRoute DeterminePath()
     {
@@ -117,14 +121,18 @@ public class PathOperation
         }
         int count = 0;
 
-        while(currentNode.GetBaseNode() != null)
+        do
         {
-            route.AddPathPoint();
+            route.AddPathPoint(currentNode.GetConnectedPathfindingNode());
 
             currentNode = currentNode.GetBaseNode();
 
             count++;
-        }
+        } while (currentNode.GetBaseNode() != null);
+
+
+        route.AddPathPoint(currentNode.GetConnectedPathfindingNode());
+        count++;
 
         Debug.Log("Done Generating Path, path is " + count + " long");
 
@@ -224,6 +232,7 @@ public class PathOperation
         }
 
         frontierNode.SetNodeState(PathingEvalStates.CLOSED);
+        closedNodes.Add(frontierNode);
         openNodes.Remove(frontierNode);
 
         Debug.Log("Node Evaluated");
@@ -235,14 +244,29 @@ public class PathOperation
 
         return EuclidianDistanceToEnd;
     }
-    private bool CheckEndReached()
+    private void CleanUpOperation()
     {
-        if(openNodes.Contains(endNodeRef))
+        foreach(PathEvalNode node in openNodes)
         {
-            return true;
+            node.DeleteNode();
         }
 
-        return false;
+        foreach(PathEvalNode node in closedNodes)
+        {
+            node.DeleteNode();
+        }
+
+        activeNodeDict.Clear();
+        activeNodeDict = null;
+
+        openNodes.Clear();
+        openNodes = null;
+
+        closedNodes.Clear();
+        closedNodes = null;
+
+        startNodeRef= null;
+        endNodeRef= null;
     }
     #endregion
 }

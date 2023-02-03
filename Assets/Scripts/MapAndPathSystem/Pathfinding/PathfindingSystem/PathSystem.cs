@@ -5,10 +5,16 @@ using UnityEngine;
 [System.Serializable]
 public static class PathSystem
 {
-   public static void FindPathBetweenTwoNodes(PathFindingNode start, PathFindingNode end)
+   public static bool FindPathBetweenTwoNodes(PathFindingNode start, PathFindingNode end, out PathRoute route)
     {
         PathOperation newPath = new PathOperation(-1, start, end);
 
-        newPath.StartPathingOperation(out PathRoute route);
+        if(!newPath.StartPathingOperation(out route))
+        {
+            return false;
+        }
+
+        route.PrintPath();
+        return true;
     }
 }

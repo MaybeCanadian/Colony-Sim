@@ -82,7 +82,7 @@ public class MapObject
             {
                 Vector3 nodeLocation = new Vector3(yPos, 0.0f, xPos) - OffSetStart;
 
-                MapNode node = new MapNode(tileGridType, nodeLocation, itt);
+                MapNode node = new MapNode(tileGridType, nodeLocation, new Vector2(x, y), itt);
 
                 ConnectNodeInSequence(node, x, y);
 
