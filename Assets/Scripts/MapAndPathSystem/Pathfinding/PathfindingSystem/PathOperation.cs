@@ -203,6 +203,7 @@ public class PathOperation
             {
                 //we have not seen this node before
                 neighbour = new PathEvalNode(node);
+                neighbour.SetNodeGValue(Mathf.Infinity, null);
 
                 activeNodeDict.Add(node, neighbour);
 
@@ -213,13 +214,16 @@ public class PathOperation
 
             float hueristic = GenerateHueristicValue(neighbour);
 
-            float distanceToThisNodeFromBase = frontierNode.GetGValue();
+            float distanceToThisNodeFromBase = frontierNode.GetGValue() + GetDistanceFromNodeToNode(frontierNode, neighbour);
 
             float newGValue = hueristic + distanceToThisNodeFromBase;
+
+            Debug.Log("Comparing G value of " + neighbour.GetGValue() + " to G value of " + newGValue);
 
             if(newGValue < neighbour.GetGValue())
             {
                 neighbour.SetNodeGValue(newGValue, frontierNode);
+                Debug.Log("swapping");
             }
 
             if (neighbour == endNodeRef)
@@ -243,6 +247,12 @@ public class PathOperation
         float EuclidianDistanceToEnd = (node.GetNodeWorldPosition() - endNodeRef.GetNodeWorldPosition()).magnitude;
 
         return EuclidianDistanceToEnd;
+    }
+    private float GetDistanceFromNodeToNode(PathEvalNode node1, PathEvalNode node2)
+    {
+        float distance = (node1.GetNodeWorldPosition() - node2.GetNodeWorldPosition()).magnitude;
+
+        return distance;
     }
     private void CleanUpOperation()
     {

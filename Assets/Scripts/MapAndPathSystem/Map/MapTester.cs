@@ -63,7 +63,7 @@ public class MapTester : MonoBehaviour
     {
         if (context.started)
         {
-            PathSystem.FindPathBetweenTwoNodes(map.GetMapNode(1, 1).GetPathNode(), map.GetMapNode(4, 4).GetPathNode(), out PathRoute route);
+            PathSystem.FindPathBetweenTwoNodes(map.GetMapNode(0, 0).GetPathNode(), map.GetMapNode(4, 1).GetPathNode(), out PathRoute route);
         }
     }
 
