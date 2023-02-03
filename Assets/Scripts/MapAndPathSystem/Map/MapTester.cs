@@ -31,11 +31,6 @@ public class MapTester : MonoBehaviour
         Debug.Log("Node count is - " + map.GetNodeCount());
 
         MapVisualsController.instance.CreateMapVisuals();
-
-        map.GetMapNode(1, 1).GetPathNode().PrintNodeType();
-        map.GetMapNode(1, 1).GetPathNode().PrintNeightbourPos();
-
-        //PathingSystem.GetPathFromGridPosToGridPos(new Vector2Int(1, 1), new Vector2Int(4, 4));
     }
 
     public void OnMapRegenEvent(InputAction.CallbackContext context)
@@ -61,6 +56,14 @@ public class MapTester : MonoBehaviour
         if(context.started)
         {
             MapVisualsController.instance.CreateMapVisuals();
+        }
+    }
+
+    public void OnGenerateTestPath(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            PathSystem.FindPathBetweenTwoNodes(map.GetMapNode(1, 1).GetPathNode(), map.GetMapNode(4, 4).GetPathNode());
         }
     }
 

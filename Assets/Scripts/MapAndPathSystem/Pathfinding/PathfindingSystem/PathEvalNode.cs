@@ -33,6 +33,16 @@ public class PathEvalNode
     {
         return baseNode;
     }
+    public Vector3 GetNodeWorldPosition()
+    {
+        if(connectedNode == null)
+        {
+            Debug.LogError("ERROR - Cannot get world Position as connected Node is null.");
+            return Vector3.zero;
+        }
+
+        return connectedNode.GetNodePosition();
+    }
     public PathingEvalStates GetNodeState()
     {
         return currentNodeState;
@@ -54,7 +64,11 @@ public class PathEvalNode
             return null;
         }
 
-        return connectedNode.GetAllConnectedNodes();
+        List<PathFindingNode> neighbours = connectedNode.GetAllConnectedNodes();
+
+        //connectedNode.PrintNeightbourPos();
+
+        return neighbours;
     }
 
     #endregion

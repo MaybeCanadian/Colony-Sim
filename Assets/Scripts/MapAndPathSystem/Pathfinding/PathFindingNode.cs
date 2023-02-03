@@ -130,7 +130,7 @@ public class PathFindingNode
 
         if (connectionsDictionary[side] != null)
         {
-            Debug.Log("okay");
+            //Debug.Log("okay");
         }
     }
     public PathFindingNode GetConnectedNodeOnSide(NodeConnectionDirections side)
@@ -163,12 +163,15 @@ public class PathFindingNode
     {
         List<PathFindingNode> tempConnectedList = new List<PathFindingNode>();
 
-        foreach(PathFindingNode node in connectedNodes)
+        foreach (int dir in Enum.GetValues(typeof(NodeConnectionDirections)))
         {
-            if(node != null)
+            if (!connectionsDictionary.ContainsKey((NodeConnectionDirections)dir))
             {
-                tempConnectedList.Add(node);
+                //Debug.Log("Skipping " + (NodeConnectionDirections)dir);
+                continue;
             }
+
+            tempConnectedList.Add(connectionsDictionary[(NodeConnectionDirections)dir]);
         }
 
         return tempConnectedList;

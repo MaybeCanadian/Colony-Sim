@@ -745,8 +745,8 @@ MonoBehaviour:
     mapHeight: 0
     XTileOffset: 0
     YTileOffset: 0
-  mapWidth: 10
-  mapHeight: 10
+  mapWidth: 100
+  mapHeight: 100
   XTileOffset: 1.75
   YTileOffset: 2
   tileGridType: 0
