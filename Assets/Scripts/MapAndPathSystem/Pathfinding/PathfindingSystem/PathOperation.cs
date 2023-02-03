@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 [System.Serializable]
 public class PathOperation
@@ -24,35 +26,28 @@ public class PathOperation
         openNodes = new List<PathEvalNode>();
         closedNodes = new List<PathEvalNode>();
 
-        SetStartNode(start);
         SetEndNode(end);
+        SetStartNode(start);
     }
 
     #region Setup Functions
     private void SetStartNode(PathFindingNode start)
     {
-        PathEvalNode startNode = new PathEvalNode(start);
+        PathEvalNode startNode = SetUpNewOpenNode(start);
 
-        activeNodeDict.Add(start, startNode);
-
-        startNode.SetNodeGValue(0.0f, null);
+        startNode.SetNewConnectedNode(0, null);
 
         startNodeRef = startNode;
-
-        openNodes.Add(startNode);
-
-        startNode.SetNodeState(PathingEvalStates.OPEN);
-
-        //Debug.Log("Added start node to open nodes");
-        //Debug.Log("Current Size of Open nodes is " + openNodes.Count);
     }
     private void SetEndNode(PathFindingNode end)
     {
         PathEvalNode endNode = new PathEvalNode(end);
 
+        endNode.SetHCost(0);
+
         activeNodeDict.Add(end, endNode);
 
-        endNode.SetNodeGValue(Mathf.Infinity, null);
+        endNode.SetNodeState(PathingEvalStates.UNEVALUATED);
 
         endNodeRef = endNode;
     }
@@ -140,7 +135,7 @@ public class PathOperation
     }
     private PathEvalNode DetermineNextFrontierNode()
     {
-        Debug.Log("Current open node count is " + openNodes.Count);
+        //Debug.Log("Current open node count is " + openNodes.Count);
 
         if(openNodes.Count == 0)
         {
@@ -149,15 +144,30 @@ public class PathOperation
             return null;
         }
 
-        float lowestGValue = Mathf.Infinity;
+        float lowestFCost = Mathf.Infinity;
+        float currentFrontierHCost = Mathf.Infinity;
         PathEvalNode currentFrontierNode = null;
 
         foreach(PathEvalNode node in openNodes)
         {
-            if(node.GetGValue() < lowestGValue) 
+            if(node.GetFCost() < lowestFCost) 
             {
-                lowestGValue = node.GetGValue();
+                lowestFCost = node.GetFCost();
+                currentFrontierHCost = node.GetHCost();
                 currentFrontierNode = node;
+                continue;
+            }
+
+            if(node.GetFCost() == lowestFCost)
+            {
+                if(node.GetHCost() < currentFrontierHCost)
+                {
+                    lowestFCost = node.GetGCost();
+                    currentFrontierHCost = node.GetHCost();
+                    currentFrontierNode = node;
+
+                    continue;
+                }
             }
         }
 
@@ -167,30 +177,32 @@ public class PathOperation
             return null;
         }
 
-        Debug.Log("Found a new frontier node");
         currentFrontierNode.SetNodeState(PathingEvalStates.FRONTIER);
         return currentFrontierNode;
     }
     private bool EvaluateFrontierNode(PathEvalNode frontierNode)
     {
+        Debug.Log("Current Frontier node is at grid pos " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().x + " " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().y);
+
         List<PathFindingNode> frontierNeighbours = frontierNode.GetNodeNeighbours();
 
-        //Debug.Log("Frontier node has " + frontierNeighbours.Count + " neighbours");
+        int frontierGCost = frontierNode.GetGCost();
 
-        foreach(PathFindingNode node in frontierNeighbours)
+        int count = 0;
+
+        int nodeNum = 0;
+
+        foreach (PathFindingNode node in frontierNeighbours)
         {
-            if(node == null)
+            if (node == null)
             {
-                Debug.Log("Skipped");
+                Debug.Log("Node at grid pos " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().x + " " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().y + " skipped node num " + nodeNum);
                 //This is not actually a thing we can check, we on the mpa edge
+                nodeNum++;
                 continue;
             }
 
-            //if(!node.GetIfNodeWalkable())
-            //{
-            //    //node cannot be travesed so ignore
-            //    continue;
-            //}
+            nodeNum++;
 
             PathEvalNode neighbour = null;
 
@@ -198,32 +210,30 @@ public class PathOperation
             {
                 //we have looked at it before
                 neighbour = activeNodeDict[node];
+
+                if(neighbour.GetNodeState() == PathingEvalStates.CLOSED)
+                {
+                    //skip the already done nodes
+                    continue;
+                }
+
+                //Debug.Log("ReEvaluating node at grid pos" + node.getNodeGridPos().x + " " + node.getNodeGridPos().y + " using frontier node of  " + +frontierNode.GetConnectedPathfindingNode().getNodeGridPos().x + " " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().y);
             }
             else
             {
                 //we have not seen this node before
-                neighbour = new PathEvalNode(node);
-                neighbour.SetNodeGValue(Mathf.Infinity, null);
-
-                activeNodeDict.Add(node, neighbour);
-
-                openNodes.Add(neighbour);
-
-                neighbour.SetNodeState(PathingEvalStates.OPEN);
+                neighbour = SetUpNewOpenNode(node);
             }
 
-            float hueristic = GenerateHueristicValue(neighbour);
+            Debug.Log("Current Neighbour Node at grid Pos " + neighbour.GetConnectedPathfindingNode().getNodeGridPos().x + " " + neighbour.GetConnectedPathfindingNode().getNodeGridPos().y);
 
-            float distanceToThisNodeFromBase = frontierNode.GetGValue() + GetDistanceFromNodeToNode(frontierNode, neighbour);
+            int distanceBetweenFrontierAndNeighbour = GetDistanceFromNodeToNode(frontierNode, neighbour);
 
-            float newGValue = hueristic + distanceToThisNodeFromBase;
+            int newGCost = frontierGCost + distanceBetweenFrontierAndNeighbour;
 
-            Debug.Log("Comparing G value of " + neighbour.GetGValue() + " to G value of " + newGValue);
-
-            if(newGValue < neighbour.GetGValue())
+            if (newGCost < neighbour.GetGCost())
             {
-                neighbour.SetNodeGValue(newGValue, frontierNode);
-                Debug.Log("swapping");
+                neighbour.SetNewConnectedNode(newGCost, frontierNode);
             }
 
             if (neighbour == endNodeRef)
@@ -232,27 +242,50 @@ public class PathOperation
                 return true;
             }
 
+            count++;
             continue;
         }
+
+        Debug.Log("Frontier Node at " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().x + " " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().y + " had " + count + " not closed neighbours");
 
         frontierNode.SetNodeState(PathingEvalStates.CLOSED);
         closedNodes.Add(frontierNode);
         openNodes.Remove(frontierNode);
 
-        Debug.Log("Node Evaluated");
+        Debug.Log("Frontier Node at grid Pos " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().x + " " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().y + " is closed");
         return false;
     }
-    private float GenerateHueristicValue(PathEvalNode node)
+    private int GenerateHueristicValue(PathEvalNode node)
     {
-        float EuclidianDistanceToEnd = (node.GetNodeWorldPosition() - endNodeRef.GetNodeWorldPosition()).magnitude;
+        int EuclidianDistanceToEnd = (int)((node.GetNodeWorldPosition() - endNodeRef.GetNodeWorldPosition()).magnitude * 100.0f);
 
         return EuclidianDistanceToEnd;
     }
-    private float GetDistanceFromNodeToNode(PathEvalNode node1, PathEvalNode node2)
+    private int GetDistanceFromNodeToNode(PathEvalNode node1, PathEvalNode node2)
     {
-        float distance = (node1.GetNodeWorldPosition() - node2.GetNodeWorldPosition()).magnitude;
+        int distance = (int)((node1.GetNodeWorldPosition() - node2.GetNodeWorldPosition()).magnitude * 100.0f);
 
         return distance;
+    }
+    private PathEvalNode SetUpNewOpenNode(PathFindingNode node)
+    {
+        PathEvalNode neighbour = new PathEvalNode(node);
+
+        int neighbourHCost = GenerateHueristicValue(neighbour);
+
+        //Debug.Log("Setting node at grid pos H value to " + node.getNodeGridPos().x + " " + node.getNodeGridPos().y + " to " + neighbourHCost);
+
+        neighbour.SetHCost(neighbourHCost);
+
+        activeNodeDict.Add(node, neighbour);
+
+        openNodes.Add(neighbour);
+
+        neighbour.SetNodeState(PathingEvalStates.OPEN);
+
+        //Debug.Log("Opening node at grid pos " + node.getNodeGridPos().x + " " + node.getNodeGridPos().y);
+
+        return neighbour;
     }
     private void CleanUpOperation()
     {

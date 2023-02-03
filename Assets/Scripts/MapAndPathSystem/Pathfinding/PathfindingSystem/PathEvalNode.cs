@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,9 @@ public class PathEvalNode
 {
     PathFindingNode connectedNode;
     PathingEvalStates currentNodeState;
-    float gValue;
+    int nodeHCost;
+    int nodeGCost;
+    int nodeFCost;
 
     PathEvalNode baseNode;
 
@@ -15,19 +18,43 @@ public class PathEvalNode
     {
         connectedNode = node;
         currentNodeState = PathingEvalStates.UNEVALUATED;
-        gValue = Mathf.Infinity;
+        nodeGCost = int.MaxValue;
+        nodeHCost = int.MaxValue;
+
+        DetermineNewFCost();
         baseNode = null;
     }
 
     #region Path Node Values
-    public void SetNodeGValue(float newValue, PathEvalNode originatingNode)
+    public void SetNewConnectedNode(int newGCost, PathEvalNode originatingNode)
     {
-        gValue = newValue;
+        nodeGCost = newGCost;
+
+        DetermineNewFCost();
+        
         baseNode = originatingNode;
     }
-    public float GetGValue() 
+    public void SetHCost(int input)
     {
-        return gValue;
+        nodeHCost = input;
+
+        DetermineNewFCost();
+    }
+    public int GetGCost()
+    {
+        return nodeGCost;
+    }
+    public int GetHCost()
+    {
+        return nodeHCost;
+    }
+    public int GetFCost()
+    {
+        return nodeFCost;
+    }
+    private void DetermineNewFCost()
+    {
+        nodeFCost = nodeGCost + nodeHCost;
     }
     public PathEvalNode GetBaseNode()
     {
@@ -55,7 +82,6 @@ public class PathEvalNode
     {
         return connectedNode;
     }
-
     #endregion
 
     #region Connected PathFinding Node Functions
