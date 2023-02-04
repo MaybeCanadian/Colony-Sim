@@ -215,5 +215,25 @@ public class PathFindingNode
 
         Debug.Log(fullList);
     }
+    public void PrintSidesMissingNodes()
+    {
+        string message = "Node ID is " + nodeGridPosition + "Sides are ";
+
+        foreach (int dir in Enum.GetValues(typeof(NodeConnectionDirections)))
+        {
+            if (!connectionsDictionary.ContainsKey((NodeConnectionDirections)dir))
+            {
+                //Debug.Log("Skipping " + (NodeConnectionDirections)dir);
+                continue;
+            }
+
+            if (connectionsDictionary[(NodeConnectionDirections)dir] == null)
+            {
+                message += (NodeConnectionDirections)dir + " ";
+            }
+        }
+
+        Debug.Log(message);
+    }
     #endregion
 }

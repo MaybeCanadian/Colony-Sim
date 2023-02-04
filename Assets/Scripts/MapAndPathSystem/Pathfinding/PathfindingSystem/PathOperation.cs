@@ -196,7 +196,7 @@ public class PathOperation
         {
             if (node == null)
             {
-                Debug.Log("Node at grid pos " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().x + " " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().y + " skipped node num " + nodeNum);
+                //Debug.Log("Node at grid pos " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().x + " " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().y + " skipped node num " + nodeNum);
                 //This is not actually a thing we can check, we on the mpa edge
                 nodeNum++;
                 continue;
@@ -225,7 +225,7 @@ public class PathOperation
                 neighbour = SetUpNewOpenNode(node);
             }
 
-            Debug.Log("Current Neighbour Node at grid Pos " + neighbour.GetConnectedPathfindingNode().getNodeGridPos().x + " " + neighbour.GetConnectedPathfindingNode().getNodeGridPos().y);
+            //Debug.Log("Current Neighbour Node at grid Pos " + neighbour.GetConnectedPathfindingNode().getNodeGridPos().x + " " + neighbour.GetConnectedPathfindingNode().getNodeGridPos().y);
 
             int distanceBetweenFrontierAndNeighbour = GetDistanceFromNodeToNode(frontierNode, neighbour);
 
@@ -246,13 +246,13 @@ public class PathOperation
             continue;
         }
 
-        Debug.Log("Frontier Node at " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().x + " " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().y + " had " + count + " not closed neighbours");
+        //Debug.Log("Frontier Node at " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().x + " " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().y + " had " + count + " not closed neighbours");
 
         frontierNode.SetNodeState(PathingEvalStates.CLOSED);
         closedNodes.Add(frontierNode);
         openNodes.Remove(frontierNode);
 
-        Debug.Log("Frontier Node at grid Pos " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().x + " " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().y + " is closed");
+        //Debug.Log("Frontier Node at grid Pos " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().x + " " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().y + " is closed");
         return false;
     }
     private int GenerateHueristicValue(PathEvalNode node)
@@ -284,6 +284,8 @@ public class PathOperation
         neighbour.SetNodeState(PathingEvalStates.OPEN);
 
         //Debug.Log("Opening node at grid pos " + node.getNodeGridPos().x + " " + node.getNodeGridPos().y);
+
+        node.PrintSidesMissingNodes();
 
         return neighbour;
     }

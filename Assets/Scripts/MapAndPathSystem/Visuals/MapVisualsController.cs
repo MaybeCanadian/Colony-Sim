@@ -49,9 +49,9 @@ public class MapVisualsController : MonoBehaviour
         int nodesX = map.GetMapWidth();
         int nodesY = map.GetMapHeight();
 
-        for(int x = 0; x < nodesX; x++)
+        for(int y = 0; y < nodesY; y++)
         {
-            for(int y = 0; y < nodesY; y++)
+            for(int x = 0; x < nodesX; x++)
             {
                 MapNode mapNode = map.GetMapNode(x, y);
 
