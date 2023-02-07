@@ -132,7 +132,7 @@ public class PathFindingNode
 
         if (connectionsDictionary[side] != null)
         {
-            //Debug.Log("okay");
+            
         }
     }
     public PathFindingNode GetConnectedNodeOnSide(NodeConnectionDirections side)

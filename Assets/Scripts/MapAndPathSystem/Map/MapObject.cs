@@ -84,9 +84,16 @@ public class MapObject
 
                 MapNode node = new MapNode(tileGridType, nodeLocation, new Vector2(x, y), itt);
 
-                ConnectNodeInSequence(node, x, y);
-
                 mapNodes[x, y] = node;
+
+                switch (tileGridType)
+                {
+                    case GridType.SQUARE:
+                        break;
+                    case GridType.HEX:
+                        ConnectNodeInSequenceSquareMapHexGrid(node, x, y);
+                        break;
+                }
 
                 yPos += YTileOffset;
 
@@ -101,31 +108,55 @@ public class MapObject
             xPos += XTileOffset;
         }
     }
-    private void ConnectNodeInSequence(MapNode node, int x, int y)
+    private void ConnectNodeInSequenceSquareMapHexGrid(MapNode node, int x, int y)
     {
-        if(y > 0)
-        {
-            MapNode leftNode = mapNodes[x, y - 1];
-            node.GetPathNode().ConnectNodeOnSide(NodeConnectionDirections.LEFT, leftNode.GetPathNode());
+        PathFindingNode currentNode = mapNodes[x, y].GetPathNode();
 
-            leftNode.GetPathNode().ConnectNodeOnSide(NodeConnectionDirections.RIGHT, node.GetPathNode());
+        if (y > 0)
+        {
+            PathFindingNode leftNode = mapNodes[x, y - 1].GetPathNode();
+            currentNode.ConnectNodeOnSide(NodeConnectionDirections.LEFT, leftNode);
+            leftNode.ConnectNodeOnSide(NodeConnectionDirections.RIGHT, currentNode);
         }
 
-        if(x > 0)
+        PathFindingNode downLeftNode = null;
+        PathFindingNode downRightNode = null;
+
+        if (x % 2 == 1)
         {
-            MapNode downLeftNode = mapNodes[x - 1, y];
-            node.GetPathNode().ConnectNodeOnSide(NodeConnectionDirections.DOWN_LEFT, downLeftNode.GetPathNode());
-
-            downLeftNode.GetPathNode().ConnectNodeOnSide(NodeConnectionDirections.UP_RIGHT, node.GetPathNode());
-
-            if (y < mapHeight - 1)
+            //Debug.Log(x);
+            if (x > 0)
             {
-                MapNode downRightNode = mapNodes[x - 1, y + 1];
-                node.GetPathNode().ConnectNodeOnSide(NodeConnectionDirections.DOWN_RIGHT, downRightNode.GetPathNode());
-
-                downRightNode.GetPathNode().ConnectNodeOnSide(NodeConnectionDirections.UP_LEFT, node.GetPathNode());
+                downLeftNode = mapNodes[x - 1, y].GetPathNode();
+                currentNode.ConnectNodeOnSide(NodeConnectionDirections.DOWN_LEFT, downLeftNode);
+                downLeftNode.ConnectNodeOnSide(NodeConnectionDirections.UP_RIGHT, currentNode);
             }
+
+            if (x > 0 && y < mapHeight - 1)
+            {
+                downRightNode = mapNodes[x - 1, y + 1].GetPathNode();
+                currentNode.ConnectNodeOnSide(NodeConnectionDirections.DOWN_RIGHT, downRightNode);
+                downRightNode.ConnectNodeOnSide(NodeConnectionDirections.UP_LEFT, currentNode);
+            }
+
+            return;
         }
+
+        //Debug.Log(x);
+        if (x > 0 && y > 0)
+        {
+            downLeftNode = mapNodes[x - 1, y - 1].GetPathNode();
+            currentNode.ConnectNodeOnSide(NodeConnectionDirections.DOWN_LEFT, downLeftNode);
+            downLeftNode.ConnectNodeOnSide(NodeConnectionDirections.UP_RIGHT, currentNode);
+        }
+
+        if (x > 0)
+        {
+            downRightNode = mapNodes[x - 1, y].GetPathNode();
+            currentNode.ConnectNodeOnSide(NodeConnectionDirections.DOWN_RIGHT, downRightNode);
+            downRightNode.ConnectNodeOnSide(NodeConnectionDirections.UP_LEFT, currentNode);
+        }
+
     }
     private void GenerateHexMap()
     {

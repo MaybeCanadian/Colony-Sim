@@ -745,8 +745,8 @@ MonoBehaviour:
     mapHeight: 0
     XTileOffset: 0
     YTileOffset: 0
-  mapWidth: 100
-  mapHeight: 100
+  mapWidth: 10
+  mapHeight: 10
   XTileOffset: 1.75
   YTileOffset: 2
   tileGridType: 0
@@ -843,6 +843,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f9ca85b3-8287-49bb-9d8e-10a893c756f7
     m_ActionName: PlayerMovement/RecreateMap[/Keyboard/l]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1459289463}
+        m_TargetAssemblyTypeName: MapTester, Assembly-CSharp
+        m_MethodName: OnGenerateTestPath
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ce8b2568-0ce8-4b33-b9b8-b238ce53a6c2
+    m_ActionName: MainGame/TestPath[/Keyboard/t]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: MainGame
