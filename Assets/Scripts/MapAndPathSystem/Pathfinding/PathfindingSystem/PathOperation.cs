@@ -95,8 +95,6 @@ public class PathOperation
             done = EvaluateFrontierNode(frontierNode);
         }
 
-        Debug.Log("Path Found");
-
         route = DeterminePath();
 
         CleanUpOperation();
@@ -135,11 +133,8 @@ public class PathOperation
     }
     private PathEvalNode DetermineNextFrontierNode()
     {
-        //Debug.Log("Current open node count is " + openNodes.Count);
-
         if(openNodes.Count == 0)
         {
-            //maybe change later to show no path can be found
             Debug.LogError("ERROR - Could not get a new frontier node as no nodes are open.");
             return null;
         }
@@ -182,7 +177,6 @@ public class PathOperation
     }
     private bool EvaluateFrontierNode(PathEvalNode frontierNode)
     {
-        Debug.Log("Current Frontier node is at grid pos " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().x + " " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().y);
 
         List<PathFindingNode> frontierNeighbours = frontierNode.GetNodeNeighbours();
 
@@ -196,8 +190,7 @@ public class PathOperation
         {
             if (node == null)
             {
-                //Debug.Log("Node at grid pos " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().x + " " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().y + " skipped node num " + nodeNum);
-                //This is not actually a thing we can check, we on the mpa edge
+                //This is not actually a thing we can check, we on the map edge
                 nodeNum++;
                 continue;
             }
@@ -217,15 +210,12 @@ public class PathOperation
                     continue;
                 }
 
-                //Debug.Log("ReEvaluating node at grid pos" + node.getNodeGridPos().x + " " + node.getNodeGridPos().y + " using frontier node of  " + +frontierNode.GetConnectedPathfindingNode().getNodeGridPos().x + " " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().y);
             }
             else
             {
                 //we have not seen this node before
                 neighbour = SetUpNewOpenNode(node);
             }
-
-            //Debug.Log("Current Neighbour Node at grid Pos " + neighbour.GetConnectedPathfindingNode().getNodeGridPos().x + " " + neighbour.GetConnectedPathfindingNode().getNodeGridPos().y);
 
             int distanceBetweenFrontierAndNeighbour = GetDistanceFromNodeToNode(frontierNode, neighbour);
 
@@ -238,7 +228,6 @@ public class PathOperation
 
             if (neighbour == endNodeRef)
             {
-                Debug.Log("we have reached the endNode");
                 return true;
             }
 
@@ -246,13 +235,10 @@ public class PathOperation
             continue;
         }
 
-        //Debug.Log("Frontier Node at " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().x + " " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().y + " had " + count + " not closed neighbours");
-
         frontierNode.SetNodeState(PathingEvalStates.CLOSED);
         closedNodes.Add(frontierNode);
         openNodes.Remove(frontierNode);
 
-        //Debug.Log("Frontier Node at grid Pos " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().x + " " + frontierNode.GetConnectedPathfindingNode().getNodeGridPos().y + " is closed");
         return false;
     }
     private int GenerateHueristicValue(PathEvalNode node)
@@ -273,8 +259,6 @@ public class PathOperation
 
         int neighbourHCost = GenerateHueristicValue(neighbour);
 
-        //Debug.Log("Setting node at grid pos H value to " + node.getNodeGridPos().x + " " + node.getNodeGridPos().y + " to " + neighbourHCost);
-
         neighbour.SetHCost(neighbourHCost);
 
         activeNodeDict.Add(node, neighbour);
@@ -282,10 +266,6 @@ public class PathOperation
         openNodes.Add(neighbour);
 
         neighbour.SetNodeState(PathingEvalStates.OPEN);
-
-        //Debug.Log("Opening node at grid pos " + node.getNodeGridPos().x + " " + node.getNodeGridPos().y);
-
-        node.PrintSidesMissingNodes();
 
         return neighbour;
     }

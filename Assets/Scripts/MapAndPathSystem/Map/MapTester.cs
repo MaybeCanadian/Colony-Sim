@@ -28,14 +28,11 @@ public class MapTester : MonoBehaviour
         MapGenerator.GenerateMap(tileGridType, chunkGridType, mapWidth, mapHeight, XTileOffset, YTileOffset);
         map = MapGenerator.GetMap();
 
-        Debug.Log("Node count is - " + map.GetNodeCount());
-
         MapVisualsController.instance.CreateMapVisuals();
     }
 
     public void OnMapRegenEvent(InputAction.CallbackContext context)
     {
-
         if (context.started)
         {
             map.RandomizeMap();
