@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
         //input = input.normalized;
         playerInput = (input.y * movementSpeed * Vector3.forward) + (input.x * movementSpeed * Vector3.right);
 
-        Debug.Log(playerInput);
+        //Debug.Log(playerInput);
     }
 
     #endregion

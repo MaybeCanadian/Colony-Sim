@@ -24,16 +24,32 @@ public static class AIAgentManager
     public static Queue<int> replacementID;
     public static int nextAgentID;
 
+    public static int numAgents;
+
+    #region Init Functions
     public static void Init()
     {
         activeAgents = new Dictionary<int, AIAgent>();
         replacementID = new Queue<int>();
 
         nextAgentID = 0;
+
+        numAgents = 0;
     }
+    private static void CheckInit()
+    {
+        if(activeAgents == null)
+        {
+            Init();
+        }
+    }
+    #endregion
+
     #region Agent Add
     public static void SpawnNewAgentAtNodePos(Vector2 nodePos)
     {
+        CheckInit();
+
         int idToGive = -1;
 
         if(replacementID.Count != 0)
@@ -51,19 +67,39 @@ public static class AIAgentManager
         activeAgents.Add(idToGive, agent);
 
         OnAgentAdd?.Invoke(agent);
+
+        numAgents++;
     }
     #endregion
 
     #region Agent Search
     public static AIAgent GetAgentByID(int ID)
     {
+        CheckInit();
+
         return activeAgents[ID];
     }
     #endregion
 
     #region Agent Remove
-    public static void RemoveAgentAtID(int ID)
+    public static bool RemoveAgentAtID(int ID)
     {
+        CheckInit();
+
+        if(!activeAgents.ContainsKey(ID))
+        {
+            Debug.LogError("ERROR - Could not find an agent with given ID to remove.");
+            return false;
+        }
+
+        if (activeAgents[ID] == null)
+        {
+            Debug.LogError("ERROR - Agent at given ID was null when remove call was given.");
+            activeAgents.Remove(ID);
+            ValidateAgentCount();
+            return false;
+        }
+
         activeAgents[ID].DestroyAgent();
         activeAgents[ID] = null;
 
@@ -72,9 +108,15 @@ public static class AIAgentManager
         replacementID.Enqueue(ID);
 
         OnAgentRemove?.Invoke(ID);
+
+        numAgents--;
+
+        return true;
     }
     public static void RemoveAgents()
     {
+        CheckInit();
+
         OnRemoveAllAgents?.Invoke();
 
         activeAgents.Clear();
@@ -82,7 +124,20 @@ public static class AIAgentManager
         nextAgentID = 0;
 
         OnAgentRemovedAll?.Invoke();
+
+        numAgents = 0;
     }
 
+    #endregion
+
+    #region Manager Values
+    public static int GetAgentCount()
+    {
+        return numAgents;
+    }
+    public static void ValidateAgentCount()
+    {
+        numAgents = activeAgents.Count;
+    }
     #endregion
 }

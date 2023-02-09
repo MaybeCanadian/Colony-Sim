@@ -8,6 +8,8 @@ public class MapVisualsController : MonoBehaviour
 
     [Header("Parents")]
     [SerializeField]
+    private GameObject mapParent = null;
+    [SerializeField]
     private GameObject mapTileParent = null;
     [SerializeField]
     private GameObject mapObjectParent = null;
@@ -30,8 +32,20 @@ public class MapVisualsController : MonoBehaviour
     #region Map Visuals Creation
     public void CreateMapVisuals()
     {
+        CreateMapParent();
+
         CreateTileVisuals();
         CreateObjectVisuals();
+    }
+    private void CreateMapParent()
+    {
+        if(mapParent != null)
+        {
+            return;
+        }
+
+        mapParent = new GameObject();
+        mapParent.name = "[MAP]";
     }
     private void CreateTileVisuals()
     {
@@ -41,8 +55,8 @@ public class MapVisualsController : MonoBehaviour
         }
 
         mapTileParent = new GameObject();
-        mapTileParent.transform.SetParent(transform);
         mapTileParent.name = "Map Tile Parent";
+        mapTileParent.transform.SetParent(mapParent.transform);
 
         MapObject map = MapGenerator.GetMap();
 
@@ -82,6 +96,10 @@ public class MapVisualsController : MonoBehaviour
         {
             DestroyMapObjectVisuals();
         }
+
+        mapObjectParent = new GameObject();
+        mapObjectParent.name = "Map Tile Parent";
+        mapObjectParent.transform.SetParent(mapParent.transform);
     }
 
     #endregion
