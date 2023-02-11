@@ -22,7 +22,7 @@ public class PathFindingNode
     [SerializeField]
     int numConnectedNodes;
 
-    PathFindingNode[] connectedNodes;
+    //PathFindingNode[] connectedNodes;
     Dictionary<NodeConnectionDirections, PathFindingNode> connectionsDictionary;
 
     #region Init Functions
@@ -47,42 +47,26 @@ public class PathFindingNode
     }
     private void SetUpHexNode()
     {
-        connectedNodes = new PathFindingNode[6]
-        {
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-        };
 
         connectionsDictionary = new Dictionary<NodeConnectionDirections, PathFindingNode>
         {
-            { NodeConnectionDirections.LEFT, connectedNodes[0] },
-            { NodeConnectionDirections.UP_LEFT, connectedNodes[1] },
-            { NodeConnectionDirections.UP_RIGHT, connectedNodes[2] },
-            { NodeConnectionDirections.RIGHT, connectedNodes[3] },
-            { NodeConnectionDirections.DOWN_RIGHT, connectedNodes[4] },
-            { NodeConnectionDirections.DOWN_LEFT, connectedNodes[5] }
+            { NodeConnectionDirections.LEFT, null },
+            { NodeConnectionDirections.UP_LEFT, null },
+            { NodeConnectionDirections.UP_RIGHT, null },
+            { NodeConnectionDirections.RIGHT, null },
+            { NodeConnectionDirections.DOWN_RIGHT, null },
+            { NodeConnectionDirections.DOWN_LEFT, null }
         };
     }
     private void SetUpSquareNode()
     {
-        connectedNodes = new PathFindingNode[4]
-        {
-            null,
-            null,
-            null,
-            null
-        };
 
         connectionsDictionary = new Dictionary<NodeConnectionDirections, PathFindingNode>
         {
-            { NodeConnectionDirections.UP, connectedNodes[0] },
-            { NodeConnectionDirections.RIGHT, connectedNodes[1] },
-            { NodeConnectionDirections.DOWN, connectedNodes[2] },
-            { NodeConnectionDirections.LEFT, connectedNodes[3] }
+            { NodeConnectionDirections.UP, null },
+            { NodeConnectionDirections.RIGHT, null },
+            { NodeConnectionDirections.DOWN, null },
+            { NodeConnectionDirections.LEFT, null }
         };
     }
 

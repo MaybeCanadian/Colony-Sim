@@ -53,6 +53,8 @@ public class GameController : MonoBehaviour
         MapGenerator.GenerateMap(tileGridType, chunkGridType, mapWidth, mapHeight, XTileOffset, YTileOffset);
         map = MapGenerator.GetMap();
 
+        Debug.Log(map.GetNodeCount());
+
         MapVisualsController.instance.CreateMapVisuals();
 
         AIAgentManager.SpawnNewAgentAtNodePos(new Vector2(0, 0));
