@@ -5,15 +5,29 @@ using UnityEngine;
 [System.Serializable]
 public class AIAgent
 {
-    public AIPathFindingAgent pathfinding;
-    public Vector2 currentGridPos;
-    public int agentID;
+    #region Event Dispatchers
+    //This event is for the visual agent to disconnect
+    public delegate void AgentDestroyEvent();
+    public AgentDestroyEvent OnAgentDestroy;
+    #endregion
 
-    public AIAgent(int id, Vector2 startingGridPos)
+    [Header("Agent Information")]
+    public int agentID;
+    public AIAgentData agentData;
+
+    [Header("Pathfinding")]
+    public AIPathFindingAgent pathfindingAgent;
+
+    public AIAgent(int id, Vector2Int startingGridPos, AIAgentData data = null)
     {
-        agentID = id;
-        currentGridPos = startingGridPos;
-        pathfinding = new AIPathFindingAgent(this);
+        pathfindingAgent = new AIPathFindingAgent(startingGridPos);
+
+        agentData = data;
+
+        if (data == null)
+        {
+            agentData = new AIAgentData();
+        }
 
         ConnectEvents();
     }
@@ -57,9 +71,11 @@ public class AIAgent
     {
         DisconnectEvents();
 
-        pathfinding.DesttoryPathfindingAgent();
+        pathfindingAgent.DestoryPathfindingAgent();
 
-        pathfinding = null;
+        pathfindingAgent = null;
+
+        OnAgentDestroy?.Invoke();
     }
     #endregion
 }

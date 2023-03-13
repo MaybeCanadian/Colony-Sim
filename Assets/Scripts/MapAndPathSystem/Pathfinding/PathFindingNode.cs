@@ -116,7 +116,7 @@ public class PathFindingNode
 
         if (connectionsDictionary[side] != null)
         {
-            
+            //edge
         }
     }
     public PathFindingNode GetConnectedNodeOnSide(NodeConnectionDirections side)
@@ -172,7 +172,7 @@ public class PathFindingNode
     #region Node LifeCycle
     public void DestroyNode()
     {
-
+        connectionsDictionary.Clear();
     }
 
     #endregion

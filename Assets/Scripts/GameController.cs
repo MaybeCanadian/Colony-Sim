@@ -57,7 +57,9 @@ public class GameController : MonoBehaviour
 
         MapVisualsController.instance.CreateMapVisuals();
 
-        AIAgentManager.SpawnNewAgentAtNodePos(new Vector2(0, 0));
+        AIAgentManager.SpawnNewAgentAtNodePos(new Vector2Int(0, 0));
+
+        AIAgentVisualsController.instance.CreateAIVisuals();
 
         Debug.Log(AIAgentManager.GetAgentCount());
     }

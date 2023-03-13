@@ -46,7 +46,7 @@ public static class AIAgentManager
     #endregion
 
     #region Agent Add
-    public static void SpawnNewAgentAtNodePos(Vector2 nodePos)
+    public static void SpawnNewAgentAtNodePos(Vector2Int nodePos)
     {
         CheckInit();
 
