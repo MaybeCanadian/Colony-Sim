@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using static MapGenerator;
+using static UnityEditor.PlayerSettings;
 
 [System.Serializable]
 public class MapObject
@@ -235,7 +236,23 @@ public class MapObject
     }
     public MapNode GetMapNode(int x, int y)
     {
+        if (x < 0 || x > mapWidth || y < 0 || y > mapHeight)
+        {
+            Debug.LogError("ERROR - Given pos is out of map bounds");
+            return null;
+        }
+
         return mapNodes[x, y];
+    }
+    public MapNode GetMapNode(Vector2Int pos)
+    {
+        if(pos.x < 0 || pos.x > mapWidth || pos.y < 0 || pos.y > mapHeight)
+        {
+            Debug.LogError("ERROR - Given pos is out of map bounds");
+            return null;
+        }
+
+        return mapNodes[pos.x, pos.y];
     }
     public MapNode GetNodeByPos(Vector3 pos) //might need to change this to be a bit more optimized. Maybe use chunk based sorting to reduce number to check
     {

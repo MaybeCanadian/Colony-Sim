@@ -140,4 +140,21 @@ public static class AIAgentManager
         numAgents = activeAgents.Count;
     }
     #endregion
+
+    #region Debug
+    public static void AllRandomPath()
+    {
+        CheckInit();
+
+        Debug.Log("We have " + activeAgents.Count + " agents");
+        Debug.Log("Num agents state " + numAgents);
+
+        foreach(AIAgent agent in activeAgents.Values)
+        {
+            Debug.Log("Making agent moved randomly");
+
+            agent.PathToRandomLocation();
+        }
+    }
+    #endregion
 }

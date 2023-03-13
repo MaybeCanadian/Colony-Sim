@@ -54,15 +54,15 @@ public class AIAgent
     #region Update Functions
     public void Update(float deltaTime)
     {
-
+        pathfindingAgent.PathfindingUpdate(deltaTime);
     }
     public void FixedUpdate(float fixedDeltaTime)
     {
-
+        pathfindingAgent.PathfindingFixedUpdate(fixedDeltaTime);
     }
     public void LateUpdate(float deltaTime) 
     {
-
+        pathfindingAgent.PathfindingLateUpdate(deltaTime);
     }
     #endregion
 
@@ -76,6 +76,13 @@ public class AIAgent
         pathfindingAgent = null;
 
         OnAgentDestroy?.Invoke();
+    }
+    #endregion
+
+    #region Debug
+    public void PathToRandomLocation()
+    {
+        pathfindingAgent.PathToRandomLocation();
     }
     #endregion
 }

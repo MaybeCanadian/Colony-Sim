@@ -22,6 +22,8 @@ public class PathFindingNode
     [SerializeField]
     int numConnectedNodes;
 
+    private static Vector3 NodeOffset = new Vector3(0.0f, 1.05f, 0.0f);
+
     //PathFindingNode[] connectedNodes;
     Dictionary<NodeConnectionDirections, PathFindingNode> connectionsDictionary;
 
@@ -47,7 +49,6 @@ public class PathFindingNode
     }
     private void SetUpHexNode()
     {
-
         connectionsDictionary = new Dictionary<NodeConnectionDirections, PathFindingNode>
         {
             { NodeConnectionDirections.LEFT, null },
@@ -60,7 +61,6 @@ public class PathFindingNode
     }
     private void SetUpSquareNode()
     {
-
         connectionsDictionary = new Dictionary<NodeConnectionDirections, PathFindingNode>
         {
             { NodeConnectionDirections.UP, null },
@@ -98,6 +98,10 @@ public class PathFindingNode
     public Vector3 GetNodePosition()
     {
         return nodeWorldPosition;
+    }
+    public Vector3 GetNodeWorldPosition()
+    {
+        return nodeWorldPosition + NodeOffset;
     }
 
     #endregion

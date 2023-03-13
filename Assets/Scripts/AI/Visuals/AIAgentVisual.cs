@@ -20,6 +20,7 @@ public class AIAgentVisual : MonoBehaviour
     public static Vector3 AgentOffset = new Vector3(0.0f, 1.05f, 0.0f);
     #endregion
 
+    #region Agent Connection
     public void ConnectAIVisuals(AIAgent agent) 
     {
         if(agent == null)
@@ -34,6 +35,7 @@ public class AIAgentVisual : MonoBehaviour
 
         ConnectEvents();
     }
+    #endregion
 
     #region AI Visuals
     public void CreateAIAgentVisuals()
@@ -80,6 +82,7 @@ public class AIAgentVisual : MonoBehaviour
         }
 
         connectedAgent.OnAgentDestroy += OnConnectedAgentDestroyed;
+        connectedAgent.pathfindingAgent.OnAgentMove += OnAgentMoved;
     }
     private void DisconnectEvents()
     {
@@ -90,10 +93,16 @@ public class AIAgentVisual : MonoBehaviour
         }
 
         connectedAgent.OnAgentDestroy -= OnConnectedAgentDestroyed;
+        connectedAgent.pathfindingAgent.OnAgentMove -= OnAgentMoved;
     }
     #endregion
 
     #region Event Recievers
+    private void OnAgentMoved(Vector3 newPos)
+    {
+        //Debug.Log("Moved");
+        transform.position = newPos;
+    }
     private void OnConnectedAgentDestroyed()
     {
         DisconnectEvents();

@@ -48,6 +48,8 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private GridType chunkGridType = GridType.SQUARE;
 
+    public int agentsToMake = 100;
+
     private void Start()
     {
         MapGenerator.GenerateMap(tileGridType, chunkGridType, mapWidth, mapHeight, XTileOffset, YTileOffset);
@@ -57,9 +59,19 @@ public class GameController : MonoBehaviour
 
         MapVisualsController.instance.CreateMapVisuals();
 
-        AIAgentManager.SpawnNewAgentAtNodePos(new Vector2Int(0, 0));
+        for(int i = 0; i < agentsToMake; i++)
+        {
+            Vector2Int pos = Vector2Int.zero;
+            pos.x = Random.Range(0, map.GetMapWidth());
+            pos.y = Random.Range(0, map.GetMapHeight());
+
+            AIAgentManager.SpawnNewAgentAtNodePos(pos);
+        }
+        
 
         AIAgentVisualsController.instance.CreateAIVisuals();
+
+        AIAgentManager.AllRandomPath();
 
         Debug.Log(AIAgentManager.GetAgentCount());
     }

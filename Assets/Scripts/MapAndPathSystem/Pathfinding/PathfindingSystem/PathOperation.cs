@@ -129,6 +129,7 @@ public class PathOperation
 
         Debug.Log("Done Generating Path, path is " + count + " long");
 
+        route.FlipPath();
         return route;
     }
     private PathEvalNode DetermineNextFrontierNode()
@@ -195,6 +196,11 @@ public class PathOperation
                 continue;
             }
 
+            if(node.GetIfNodeWalkable() == false)
+            {
+                continue;
+            }
+
             nodeNum++;
 
             PathEvalNode neighbour = null;
@@ -255,6 +261,12 @@ public class PathOperation
     }
     private PathEvalNode SetUpNewOpenNode(PathFindingNode node)
     {
+        if (activeNodeDict.ContainsKey(node))
+        {
+            Debug.LogError("ERROR - We have a duplicate node");
+            return null;
+        }
+
         PathEvalNode neighbour = new PathEvalNode(node);
 
         int neighbourHCost = GenerateHueristicValue(neighbour);

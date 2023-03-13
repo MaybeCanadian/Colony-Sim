@@ -17,15 +17,38 @@ public class PathRoute
     {
         routeNodes.Add(node);
     }
+    public void FlipPath()
+    {
+        routeNodes.Reverse();
+    }
     public void PrintPath()
     {
         string path = "Full Path is: ";
 
-        for(int i = routeNodes.Count - 1; i >= 0; i--)
-        {
-            path += "x: " + routeNodes[i].getNodeGridPos().x + " y: " + routeNodes[i].getNodeGridPos().y + " - ";
+        foreach(PathFindingNode node in routeNodes) 
+        { 
+            path += "x: " + node.getNodeGridPos().x + " y: " + node.getNodeGridPos().y + " - ";
         }
 
         Debug.Log(path);
+    }
+    public bool CheckIndexInRange(int index)
+    {
+        if (routeNodes.Count > index)
+        {
+            return true;
+        }
+
+        return false;
+    }
+    public Vector3 GetPosOfRouteIndex(int index)
+    {
+        if (routeNodes.Count > index)
+        {
+            return routeNodes[index].GetNodeWorldPosition();
+        }
+
+        Debug.LogError("ERROR - Index is out of route range");
+        return Vector3.zero;
     }
 }
