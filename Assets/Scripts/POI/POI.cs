@@ -13,6 +13,9 @@ public class POI
     public Vector3 POIworldPos = Vector3Int.zero;
 
     public POICategories category = POICategories.Default;
+    public POIModelList model = POIModelList.NULL;
+
+    public string POIName = "POI";
 
     #region Init Functions
     public POI(Vector2Int gridPOs)

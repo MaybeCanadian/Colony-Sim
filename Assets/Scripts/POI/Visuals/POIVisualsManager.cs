@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class POIVisualsManager : MonoBehaviour
 {
-    #region Event Dispatchers
-
-    #endregion
-
     #region Member Variables
     public static POIVisualsManager instance;
 
@@ -83,16 +79,11 @@ public class POIVisualsManager : MonoBehaviour
             visuals.CreateVisuals();
         }
     }
-    public void DestroyPOIVisuals(bool fullDestory = false)
+    public void DestroyPOIVisuals()
     {
         foreach(POIVisuals visuals in poiVisualList)
         {
             visuals.DestroyVisuals();
-
-            if(fullDestory)
-            {
-                Destroy(visuals);
-            }
         }
     }
     #endregion

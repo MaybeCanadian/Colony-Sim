@@ -11,6 +11,8 @@ public class POIVisuals : MonoBehaviour
 
     #region Member Variable
     private POI connectedPOI = null;
+
+    private GameObject visualOBJ = null;
     #endregion
 
     #region Init Functions
@@ -56,11 +58,34 @@ public class POIVisuals : MonoBehaviour
     #region Visuals Control
     public void CreateVisuals()
     {
+        if(connectedPOI == null)
+        {
+            Debug.LogError("ERROR - Could not make visuals, connected poi is null");
+            return;
+        }
 
+        if(visualOBJ != null)
+        {
+            DestroyVisuals();
+        }
+
+        GameObject model = POIDataBase.GetModel(connectedPOI.model);
+
+        visualOBJ = Instantiate(model);
+
+        visualOBJ.transform.SetParent(transform);
+        visualOBJ.name = connectedPOI.POIName;
     }
     public void DestroyVisuals()
     {
+        if(visualOBJ != null)
+        {
+            Destroy(visualOBJ);
+        }
 
+        visualOBJ = null;
+
+        return;
     }
     #endregion
 }

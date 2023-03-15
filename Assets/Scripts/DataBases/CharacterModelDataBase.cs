@@ -36,7 +36,7 @@ public static class CharacterModelDataBase
                 continue;
             }
 
-            GameObject model = Resources.Load<GameObject>("Prefabs/Models/" + ((BaseModelList)modelID).ToString());
+            GameObject model = Resources.Load<GameObject>("Prefabs/Models/Characters/" + ((BaseModelList)modelID).ToString());
 
             if(model == null)
             {
