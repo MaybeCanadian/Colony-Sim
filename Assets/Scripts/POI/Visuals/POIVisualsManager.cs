@@ -11,7 +11,8 @@ public class POIVisualsManager : MonoBehaviour
     #region Member Variables
     public static POIVisualsManager instance;
 
-    private List<POIVisuals> poiVisualList;
+    private GameObject POIParent = null;
+    private List<POIVisuals> poiVisualList = null;
     #endregion
 
     #region Init Functions
@@ -30,10 +31,18 @@ public class POIVisualsManager : MonoBehaviour
     private void Init()
     {
         SetUpVisualsList();
+        SetUpParentOBJ();
+
+        ConnectEvents();
     }
     private void SetUpVisualsList()
     {
         poiVisualList = new List<POIVisuals>();
+    }
+    private void SetUpParentOBJ()
+    {
+        POIParent = new GameObject();
+        POIParent.name = "[POI]";
     }
     private void ConnectEvents()
     {
@@ -49,6 +58,8 @@ public class POIVisualsManager : MonoBehaviour
     private void OnPOIAdded(POI poi)
     {
         GameObject visualsOBJ = new GameObject();
+
+        visualsOBJ.transform.SetParent(POIParent.transform);
 
         POIVisuals visuals = visualsOBJ.AddComponent<POIVisuals>();
 
