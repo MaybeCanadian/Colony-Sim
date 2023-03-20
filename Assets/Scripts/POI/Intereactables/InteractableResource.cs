@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class InteractableResource : BaseInteractable
 {
-    public InteractableResource()
+    public InteractableResource(Vector3 worldPos)
     {
         type = InteractableTypes.Resource;
+        Pos = worldPos;
     }
 
     public override void Interact()
     {
         base.Interact();
+    }
+    public override void RemoveInteractable()
+    {
+        base.RemoveInteractable();
     }
 }

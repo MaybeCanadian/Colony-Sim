@@ -7,6 +7,9 @@ public class POI
     #region Event Dispatchers
     public delegate void POIRemoveEvent();
     public POIRemoveEvent OnPOIRemove;
+
+    public delegate void InteractableAddedEvent(BaseInteractable added);
+    public InteractableAddedEvent OnInteractableAdded;
     #endregion
 
     public Vector2Int connectedGridPos = Vector2Int.zero;
@@ -61,7 +64,33 @@ public class POI
     #endregion
 
     #region Interactables
-    public void AddInteractable(Vector3 spawnPosition)
+    public void AddInteractable(Vector3 spawnPosition, InteractableTypes type)
+    {
+        BaseInteractable newInteractable = null;
+
+        switch(type)
+        {
+            case InteractableTypes.None:
+                Debug.LogError("ERROR - Can not make an interactable of type None");
+                return;
+            case InteractableTypes.Resource:
+                newInteractable = new InteractableResource(spawnPosition);
+                break;
+            case InteractableTypes.Station:
+                newInteractable = new InteractableStation(spawnPosition);
+                break;
+        }
+
+        if(newInteractable == null)
+        {
+            return;
+        }
+
+        interactables.Add(newInteractable);
+
+        OnInteractableAdded?.Invoke(newInteractable);
+    }
+    public void RemoveInteractable()
     {
 
     }
