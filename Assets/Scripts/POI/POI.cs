@@ -17,10 +17,13 @@ public class POI
 
     public string POIName = "POI";
 
+    public List<BaseInteractable> interactables;
+
     #region Init Functions
     public POI(Vector2Int gridPOs)
     {
         connectedGridPos = gridPOs;
+        interactables = new List<BaseInteractable>();
 
         //find connected worldpos
     }
@@ -54,6 +57,13 @@ public class POI
         dist = (worldPos - POIworldPos).magnitude;
 
         return dist;
+    }
+    #endregion
+
+    #region Interactables
+    public void AddInteractable(Vector3 spawnPosition)
+    {
+
     }
     #endregion
 }
