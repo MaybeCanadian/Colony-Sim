@@ -32,6 +32,11 @@ public class AINeedsValues
 
         return;
     }
+
+    /// <summary>
+    /// Returns the need Value that is currently at the lowest in terms of percentage.
+    /// </summary>
+    /// <returns></returns>
     public NeedsTypes FindCurrentLowestNeed()
     {
         NeedsTypes lowest = NeedsTypes.Health;
@@ -54,9 +59,17 @@ public class AINeedsValues
 
         return lowest;
     }
-    public List<NeedsTypes> GetNeedsBelowPercetValue(float value)
+
+    /// <summary>
+    /// Returns all needs currently below the given percentage. Value is percent out of 100.
+    /// </summary>
+    /// <param name="percentage"></param>
+    /// <returns></returns>
+    public List<NeedsTypes> GetNeedsBelowPercentValue(float percentage)
     {
         List<NeedsTypes> values = new List<NeedsTypes>();
+
+        percentage = percentage / 100.0f;
 
         foreach(int needType in Enum.GetValues(typeof(NeedsTypes)))
         {
@@ -65,7 +78,7 @@ public class AINeedsValues
                 continue;
             }
 
-            if (statsPairDict[(NeedsTypes)needType].GetPercentage() < value)
+            if (statsPairDict[(NeedsTypes)needType].GetPercentage() < percentage)
             {
                 values.Add((NeedsTypes)needType);
                 continue;

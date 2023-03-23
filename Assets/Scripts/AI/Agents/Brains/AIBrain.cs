@@ -29,7 +29,7 @@ public class AIBrain
     #region Update Functions
     public void BrainUpdate(float deltaTime)
     {
-
+        List<NeedsTypes> lowestNeeds = needs.GetNeedsBelowPercentValue(0.2f);
     }
     public void BrainFixedUpdate(float fixedDeltaTime)
     {

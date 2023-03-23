@@ -22,8 +22,10 @@ public class AIAgent
 
     public AIAgent(int id, Vector2Int startingGridPos, AIAgentData data = null)
     {
-        SetUpBrain();
+        this.id = id;
 
+        SetUpBrain();
+        SetUpData(data);
         SetUpPathfinging(startingGridPos);
 
         ConnectEvents();
