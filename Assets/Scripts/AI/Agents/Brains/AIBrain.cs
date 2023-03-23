@@ -2,10 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class AIBrain
+public class AIBrain
 {
-    public static void AIBrainTick(AIAgent agent)
+    public AIAgent agent = null;
+    public AINeedsValues needs = null;
+    public AIMemory memory = null;
+
+    #region Init Functions
+    public AIBrain(AIAgent connectedAgent)
+    {
+        agent = connectedAgent;
+
+        SetUpNeeds();
+        SetUpMemory();
+    }
+    private void SetUpNeeds()
+    {
+        needs = new AINeedsValues();
+    }
+    private void SetUpMemory()
+    {
+        memory = new AIMemory();
+    }
+    #endregion
+
+    #region Update Functions
+    public void BrainUpdate(float deltaTime)
     {
 
     }
+    public void BrainFixedUpdate(float fixedDeltaTime)
+    {
+
+    }
+    public void BrainLateUpdate(float deltaTime)
+    {
+
+    }
+    #endregion
 }

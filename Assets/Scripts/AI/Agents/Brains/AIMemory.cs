@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class AIMemory
 {
+    #region Event Dispatchers
+    public delegate void POILocationRememberedEvent(SavedOPOIInformation info);
+    public POILocationRememberedEvent OnPOILocationRemebered;
+
+    public delegate void POILocationSavedToMemoryEvent(SavedOPOIInformation info);
+    public POILocationSavedToMemoryEvent OnPOILocationSavedToMemory;
+
+    public delegate void POILocationForgotEvent(SavedOPOIInformation info);
+    public POILocationForgotEvent OnPOILocationForgot;
+    #endregion
+
     #region Variables
     public List<SavedOPOIInformation> rememberedPOIs = null;
     public int maxNumberofSavedItems = 1;
@@ -18,21 +29,29 @@ public class AIMemory
     #endregion
 
     #region Remembering
-    public void SavePOIInMemory(POI poiToSave, float importance = 0.0f, bool replaceAny = false)
+    public bool SavePOIInMemory(POI poiToSave, float importance = 0.0f, bool replaceAny = false)
     {
         SavedOPOIInformation info = new SavedOPOIInformation(poiToSave, importance); 
 
         if(CheckForMemorySpace())
         {
             rememberedPOIs.Add(info);
-            return;
+            OnPOILocationRemebered?.Invoke(info);
+            return true;
         }
 
-        TryReplaceMemory(info, replaceAny);
+        return TryReplaceMemory(info, replaceAny);
     }
-    public POI RememberPOIWithInteractable()
+    public List<POI> RememberPOIsWithInteractable(POICategories categoryFilter)
     {
-        return null;
+        List<POI> rememberedList = new List<POI>();
+
+        foreach(SavedOPOIInformation info in rememberedPOIs)
+        {
+            
+        }
+
+        return rememberedList;
     }
     private bool CheckForMemorySpace()
     {
@@ -43,7 +62,7 @@ public class AIMemory
 
         return true;
     }
-    private void TryReplaceMemory(SavedOPOIInformation toReplace, bool replaceAny)
+    private bool TryReplaceMemory(SavedOPOIInformation toReplace, bool replaceAny)
     {
         int index = -1;
         float lowestImportance = toReplace.importanceValue;
@@ -66,12 +85,14 @@ public class AIMemory
 
         if(index == -1)
         {
-            return;
+            return false;
         }
 
+        OnPOILocationForgot?.Invoke(rememberedPOIs[index]);
         rememberedPOIs[index] = toReplace;
+        OnPOILocationSavedToMemory?.Invoke(toReplace);
 
-        return;
+        return true;
     }
     #endregion
 }

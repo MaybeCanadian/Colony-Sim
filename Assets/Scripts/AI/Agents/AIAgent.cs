@@ -12,24 +12,37 @@ public class AIAgent
     #endregion
 
     [Header("Agent Information")]
-    public int agentID;
-    public AIAgentData agentData;
+    public int id;
+    public AIAgentData data = null;
 
-    [Header("Pathfinding")]
-    public AIPathFindingAgent pathfindingAgent;
+    [Header("Connected Systems")]
+    public AIPathFindingAgent pathfinding = null;
+
+    public AIBrain brain = null;
 
     public AIAgent(int id, Vector2Int startingGridPos, AIAgentData data = null)
     {
-        pathfindingAgent = new AIPathFindingAgent(startingGridPos);
+        SetUpBrain();
 
-        agentData = data;
-
-        if (data == null)
-        {
-            agentData = new AIAgentData();
-        }
+        SetUpPathfinging(startingGridPos);
 
         ConnectEvents();
+    }
+    private void SetUpBrain()
+    {
+        brain = new AIBrain(this);
+    }
+    private void SetUpPathfinging(Vector2Int startingGridPos)
+    {
+        pathfinding = new AIPathFindingAgent(startingGridPos);
+    }
+    private void SetUpData(AIAgentData data = null)
+    {
+        if (data == null)
+        {
+            this.data = new AIAgentData();
+            return;
+        }
     }
 
     #region Event Functions
@@ -54,15 +67,22 @@ public class AIAgent
     #region Update Functions
     public void Update(float deltaTime)
     {
-        pathfindingAgent.PathfindingUpdate(deltaTime);
+
+        brain.BrainUpdate(deltaTime);
+
+        pathfinding.PathfindingUpdate(deltaTime);
     }
     public void FixedUpdate(float fixedDeltaTime)
     {
-        pathfindingAgent.PathfindingFixedUpdate(fixedDeltaTime);
+        brain.BrainFixedUpdate(fixedDeltaTime);
+
+        pathfinding.PathfindingFixedUpdate(fixedDeltaTime);
     }
     public void LateUpdate(float deltaTime) 
     {
-        pathfindingAgent.PathfindingLateUpdate(deltaTime);
+        brain.BrainLateUpdate(deltaTime);
+
+        pathfinding.PathfindingLateUpdate(deltaTime);
     }
     #endregion
 
@@ -71,9 +91,9 @@ public class AIAgent
     {
         DisconnectEvents();
 
-        pathfindingAgent.DestoryPathfindingAgent();
+        pathfinding.DestoryPathfindingAgent();
 
-        pathfindingAgent = null;
+        pathfinding = null;
 
         OnAgentDestroy?.Invoke();
     }
@@ -82,7 +102,7 @@ public class AIAgent
     #region Debug
     public void PathToRandomLocation()
     {
-        pathfindingAgent.PathToRandomLocation();
+        pathfinding.PathToRandomLocation();
     }
     #endregion
 }

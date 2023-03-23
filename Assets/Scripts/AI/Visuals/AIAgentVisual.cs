@@ -31,7 +31,7 @@ public class AIAgentVisual : MonoBehaviour
 
         connectedAgent = agent;
 
-        name = connectedAgent.agentData.agentName + "'s visuals";
+        name = connectedAgent.data.agentName + "'s visuals";
 
         ConnectEvents();
     }
@@ -51,10 +51,10 @@ public class AIAgentVisual : MonoBehaviour
             DestoryAIAgentVisuals();
         }
 
-        GameObject model = CharacterModelDataBase.GetModel(connectedAgent.agentData.modelToUse);
+        GameObject model = CharacterModelDataBase.GetModel(connectedAgent.data.modelToUse);
 
         AIObject = Instantiate(model);
-        AIObject.name = connectedAgent.agentData.agentName + " visuals";
+        AIObject.name = connectedAgent.data.agentName + " visuals";
         AIObject.transform.SetParent(transform);
 
         MoveToPos();
@@ -82,7 +82,7 @@ public class AIAgentVisual : MonoBehaviour
         }
 
         connectedAgent.OnAgentDestroy += OnConnectedAgentDestroyed;
-        connectedAgent.pathfindingAgent.OnAgentMove += OnAgentMoved;
+        connectedAgent.pathfinding.OnAgentMove += OnAgentMoved;
     }
     private void DisconnectEvents()
     {
@@ -93,7 +93,7 @@ public class AIAgentVisual : MonoBehaviour
         }
 
         connectedAgent.OnAgentDestroy -= OnConnectedAgentDestroyed;
-        connectedAgent.pathfindingAgent.OnAgentMove -= OnAgentMoved;
+        connectedAgent.pathfinding.OnAgentMove -= OnAgentMoved;
     }
     #endregion
 
@@ -125,7 +125,7 @@ public class AIAgentVisual : MonoBehaviour
             return;
         }
 
-        transform.position = connectedAgent.pathfindingAgent.GetWorldPos();
+        transform.position = connectedAgent.pathfinding.GetWorldPos();
     }
     #endregion
 }

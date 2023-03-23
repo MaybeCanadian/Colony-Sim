@@ -22,8 +22,8 @@ public class AINeedsValues
     private void SetUpStatsDict()
     {
         statsPairDict = new Dictionary<NeedsTypes, StatPairing>();
-        
-        foreach(int needType in Enum.GetValues(typeof(NeedsTypes)))
+
+        foreach (int needType in Enum.GetValues(typeof(NeedsTypes)))
         {
             StatPairing stats = new StatPairing(defaultStartingValues);
 
@@ -32,16 +32,32 @@ public class AINeedsValues
 
         return;
     }
-
     public NeedsTypes FindCurrentLowestNeed()
     {
-        NeedsTypes lowest = NeedsTypes.Health; 
+        NeedsTypes lowest = NeedsTypes.Health;
+        float lowestValue = statsPairDict[NeedsTypes.Health].Current;
+
+        foreach(int needType in Enum.GetValues(typeof(NeedsTypes)))
+        {
+            if(!statsPairDict.ContainsKey((NeedsTypes)needType))
+            {
+                continue;
+            }
+
+            if (statsPairDict[(NeedsTypes)needType].Current < lowestValue)
+            {
+                lowest = (NeedsTypes)needType;
+                lowestValue = statsPairDict[(NeedsTypes)needType].Current;
+                continue;
+            }
+        }
 
         return lowest;
     }
     #endregion
 }
 
+#region Needs Extras
 [System.Serializable]
 public enum NeedsTypes
 {
@@ -64,3 +80,4 @@ public class StatPairing
         return;
     }
 }
+#endregion
