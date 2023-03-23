@@ -35,7 +35,7 @@ public class AINeedsValues
     public NeedsTypes FindCurrentLowestNeed()
     {
         NeedsTypes lowest = NeedsTypes.Health;
-        float lowestValue = statsPairDict[NeedsTypes.Health].Current;
+        float lowestValue = statsPairDict[NeedsTypes.Health].GetCurrent();
 
         foreach(int needType in Enum.GetValues(typeof(NeedsTypes)))
         {
@@ -44,15 +44,35 @@ public class AINeedsValues
                 continue;
             }
 
-            if (statsPairDict[(NeedsTypes)needType].Current < lowestValue)
+            if (statsPairDict[(NeedsTypes)needType].GetCurrent() < lowestValue)
             {
                 lowest = (NeedsTypes)needType;
-                lowestValue = statsPairDict[(NeedsTypes)needType].Current;
+                lowestValue = statsPairDict[(NeedsTypes)needType].GetCurrent();
                 continue;
             }
         }
 
         return lowest;
+    }
+    public List<NeedsTypes> GetNeedsBelowPercetValue(float value)
+    {
+        List<NeedsTypes> values = new List<NeedsTypes>();
+
+        foreach(int needType in Enum.GetValues(typeof(NeedsTypes)))
+        {
+            if(!statsPairDict.ContainsKey((NeedsTypes)needType))
+            {
+                continue;
+            }
+
+            if (statsPairDict[(NeedsTypes)needType].GetPercentage() < value)
+            {
+                values.Add((NeedsTypes)needType);
+                continue;
+            }
+        }
+
+        return values;
     }
     #endregion
 }
@@ -69,15 +89,81 @@ public enum NeedsTypes
 [System.Serializable]
 public class StatPairing
 {
-    public float Max;
-    public float Current;
+    #region Member Variables
+    private float Max;
+    private float Current;
+    #endregion
 
+    #region Init Functions
     public StatPairing(float Max)
     {
         this.Max = Max;
         this.Current = Max;
 
+        ValidateValues();
+
         return;
     }
+    private void ValidateValues()
+    {
+        if(Max < 0)
+        {
+            Debug.LogError("ERROR - Needs Value initialized with a max below zero");
+            Max = 0;
+            Current = 0;
+        }
+
+        return;
+    }
+    #endregion
+
+    #region Value Control Functions
+    public void ChangeValueAmount(float amount)
+    {
+        Current += amount;
+
+        if(Current > Max)
+        {
+            Current = Max;
+            return;
+        }
+
+        if(Current < 0)
+        {
+            Current = 0;
+            return;
+        }
+    }
+    public void ChangeMaxTo(float value)
+    {
+        if(value < 0)
+        {
+            Debug.LogError("ERROR - Max value cannot be less than zero");
+            return;
+        }
+
+        Max = value;
+    } 
+    #endregion
+
+    #region Data Functions
+    public float GetCurrent()
+    {
+        return Current;
+    }
+    public float GetMax()
+    {
+        return Max;
+    }
+    public float GetPercentage()
+    {
+        if(Max <= 0)
+        {
+            return 0;
+        }
+
+        return Current / Max;
+    }
+    #endregion
 }
 #endregion
