@@ -29,30 +29,30 @@ public class AIMemory
     #endregion
 
     #region Remembering
-    public bool SavePOIInMemory(POI poiToSave, float importance = 0.0f, bool replaceAny = false)
-    {
-        SavedOPOIInformation info = new SavedOPOIInformation(poiToSave, importance); 
+    //public bool SavePOIInMemory(POI poiToSave, float importance = 0.0f, bool replaceAny = false)
+    //{
+    //    SavedOPOIInformation info = new SavedOPOIInformation(poiToSave, importance); 
 
-        if(CheckForMemorySpace())
-        {
-            rememberedPOIs.Add(info);
-            OnPOILocationRemebered?.Invoke(info);
-            return true;
-        }
+    //    if(CheckForMemorySpace())
+    //    {
+    //        rememberedPOIs.Add(info);
+    //        OnPOILocationRemebered?.Invoke(info);
+    //        return true;
+    //    }
 
-        return TryReplaceMemory(info, replaceAny);
-    }
-    public List<POI> RememberPOIsWithInteractable(POICategories categoryFilter)
-    {
-        List<POI> rememberedList = new List<POI>();
+    //    return TryReplaceMemory(info, replaceAny);
+    //}
+    //public List<POI> RememberPOIsWithInteractable(POICategories categoryFilter)
+    //{
+    //    List<POI> rememberedList = new List<POI>();
 
-        foreach(SavedOPOIInformation info in rememberedPOIs)
-        {
+    //    foreach(SavedOPOIInformation info in rememberedPOIs)
+    //    {
             
-        }
+    //    }
 
-        return rememberedList;
-    }
+    //    return rememberedList;
+    //}
     private bool CheckForMemorySpace()
     {
         if(rememberedPOIs.Count > maxNumberofSavedItems)
@@ -100,12 +100,12 @@ public class AIMemory
 [System.Serializable]
 public class SavedOPOIInformation
 {
-    public POI poi;
+    //public POI poi;
     public float importanceValue = 0.0f;
 
-    public SavedOPOIInformation(POI toSave, float importtance = 0.0f)
-    {
-        poi = toSave;
-        importanceValue = importtance;
-    }
+    //public SavedOPOIInformation(POI toSave, float importtance = 0.0f)
+    //{
+    //    poi = toSave;
+    //    importanceValue = importtance;
+    //}
 }
