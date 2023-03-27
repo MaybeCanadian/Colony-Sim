@@ -98,7 +98,7 @@ public class MapVisualsController : MonoBehaviour
         }
 
         mapObjectParent = new GameObject();
-        mapObjectParent.name = "Map Tile Parent";
+        mapObjectParent.name = "Map Object Parent";
         mapObjectParent.transform.SetParent(mapParent.transform);
     }
 
