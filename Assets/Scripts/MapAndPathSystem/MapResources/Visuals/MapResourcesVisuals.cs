@@ -73,4 +73,30 @@ public class MapResourcesVisuals : MonoBehaviour
         OnResourceVisualDisconneted?.Invoke(this);
     }
     #endregion
+
+    #region Visuals
+    public void CreateVisuals()
+    {
+        if(resourceOBJ != null)
+        {
+            DestroyVisuals();
+        }
+
+        GameObject resourceModel = new GameObject(); // we need to get the model
+
+        resourceOBJ = Instantiate(resourceModel);
+        resourceOBJ.transform.SetParent(transform);
+    }
+    public void DestroyVisuals()
+    {
+        if(resourceOBJ == null)
+        {
+            Debug.LogError("ERROR - Could not destroy resource visuals as the visuals object is null");
+            return;
+        }
+
+        Destroy(resourceOBJ);
+        resourceOBJ = null;
+    }
+    #endregion
 }
