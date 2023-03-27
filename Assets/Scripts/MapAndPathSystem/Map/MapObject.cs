@@ -83,7 +83,7 @@ public class MapObject
             {
                 Vector3 nodeLocation = new Vector3(yPos, 0.0f, xPos) - OffSetStart;
 
-                MapNode node = new MapNode(tileGridType, nodeLocation, new Vector2(x, y), itt);
+                MapNode node = new MapNode(tileGridType, nodeLocation, new Vector2Int(x, y), itt);
 
                 mapNodes[x, y] = node;
 
@@ -219,6 +219,10 @@ public class MapObject
     public int GetMapHeight()
     {
         return mapHeight;
+    }
+    public float GetTileMaxRange()
+    {
+        return Math.Max(XTileOffset, YTileOffset);
     }
     public int GetNodeCount()
     {

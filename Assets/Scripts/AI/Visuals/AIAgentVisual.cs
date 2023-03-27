@@ -14,6 +14,7 @@ public class AIAgentVisual : MonoBehaviour
     private GameObject AIObject = null;
 
     [Header("Connected Agent")]
+    [SerializeField]
     private AIAgent connectedAgent = null;
 
     [Header("Offset")]

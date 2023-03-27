@@ -6,16 +6,21 @@ using UnityEngine;
 [System.Serializable]
 public class MapNode
 {
+    [Header("Connected Node Systems")]
     [SerializeField]
-    PathFindingNode pathFindingNode;
-    [SerializeField]
-    float tileRotation;
-    [SerializeField]
-    private TileType tileType;
+    PathFindingNode pathFindingNode = null;
 
+    [Header("Map Node Appearance")]
     [SerializeField]
-    int nodeID;
-    Vector2 gridPos;
+    private TileType tileType = TileType.GRASS_EMPTY;
+    [SerializeField]
+    float tileRotation = 0.0f;
+
+    [Header("Map Node Information")]
+    [SerializeField]
+    int nodeID = -1;
+    [SerializeField]
+    Vector2Int gridPos = Vector2Int.zero;
 
     #region Event Dispatchers
 
@@ -34,7 +39,7 @@ public class MapNode
     #endregion
 
     #region Node LifeCycle
-    public MapNode(GridType nodeType, Vector3 nodePosition, Vector2 gridPosition, int nodeID)
+    public MapNode(GridType nodeType, Vector3 nodePosition, Vector2Int gridPosition, int nodeID)
     {
         OnNodeCreateEvent?.Invoke();
         this.gridPos = gridPosition;
@@ -42,18 +47,15 @@ public class MapNode
 
         pathFindingNode = new PathFindingNode(nodeType, nodePosition, gridPos);
     }
-
     public void DestroyNode()
     {
         OnNodeDestroyEvent?.Invoke();
 
         pathFindingNode.DestroyNode();
     }
-
     #endregion
 
     #region Node Data Functions
-
     public PathFindingNode GetPathNode()
     {
         return pathFindingNode;

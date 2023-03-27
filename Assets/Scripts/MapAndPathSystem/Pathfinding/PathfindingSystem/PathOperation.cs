@@ -146,6 +146,7 @@ public class PathOperation
 
         foreach(PathEvalNode node in openNodes)
         {
+
             if(node.GetFCost() < lowestFCost) 
             {
                 lowestFCost = node.GetFCost();

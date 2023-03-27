@@ -11,6 +11,7 @@ public class BaseInteractable
 
     public InteractableTypes type;
     public Vector3 Pos = Vector3.zero;
+    public string interactableName = "Base";
 
     public virtual void Interact() { }
 
